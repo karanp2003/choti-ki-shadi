@@ -175,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initScratchCards() {
     const cards = [
-      { canvasId: "canvas-month", cardId: "card-month", unitId: "unit-month" },
       { canvasId: "canvas-day",   cardId: "card-day",   unitId: "unit-day"   },
+      { canvasId: "canvas-month", cardId: "card-month", unitId: "unit-month" },
       { canvasId: "canvas-year",  cardId: "card-year",  unitId: "unit-year"  }
     ];
 
@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const groom = config.hero?.groom?.name || "Saksham Mathur";
       const shareData = {
         title: `${bride} & ${groom} — Wedding Invitation`,
-        text: `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 4th & 5th December 2026!`,
+        text: `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 04 & 05 December 2026!`,
         url: window.location.href,
       };
 
