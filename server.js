@@ -21,7 +21,7 @@ const server = http.createServer((req, res) => {
   let reqPath = req.url.split('?')[0];
   if (reqPath === '/') reqPath = '/index.html';
 
-  const filePath = path.join(__dirname, reqPath);
+  const filePath = path.join(__dirname, decodeURIComponent(reqPath));
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     const ext = path.extname(filePath).toLowerCase();
