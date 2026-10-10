@@ -49,6 +49,7 @@
 
 .entry-gate--modern-bliss.entry-gate--type2 {
   background: #2c1218;
+  perspective: 1000px;
 }
 
 .entry-gate--modern-bliss.entry-gate--type2 video {
@@ -78,6 +79,10 @@
   top: 72%;
   color: #1a1210;
   text-shadow: 0 1px 10px rgba(255, 255, 255, 0.35);
+  transform: translate(-50%, 0);
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 /* Black copy on seal + envelope (reference video), not cream overlay */
@@ -105,8 +110,40 @@
 .entry-gate--modern-bliss.gate-tap-hidden .entry-gate-message {
   display: block !important;
   visibility: visible !important;
-  opacity: 0.92 !important;
+  opacity: 0.92;
   z-index: 4;
+}
+
+.entry-gate--modern-bliss .entry-gate-message.blessing-exit {
+  animation: blessingRecede 1.15s cubic-bezier(0.42, 0, 0.2, 1) forwards;
+  transition: none !important;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.entry-gate--modern-bliss .entry-gate-message.hidden,
+.entry-gate--modern-bliss.gate-blessing-hidden .entry-gate-message {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  animation: none !important;
+}
+
+@keyframes blessingRecede {
+  0% {
+    opacity: 0.92;
+    transform: translate(-50%, 0) scale(1) rotateX(0deg);
+    filter: blur(0);
+  }
+  45% {
+    opacity: 0.6;
+    transform: translate(-50%, 5%) scale(0.9) rotateX(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 16%) scale(0.68) rotateX(24deg);
+    filter: blur(2px);
+  }
 }
 
 @keyframes sealHintBreathe {

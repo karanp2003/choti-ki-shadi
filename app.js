@@ -162,9 +162,51 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  let blessingHidden = false;
+
+  const BLESSING_EXIT_MS = 1150;
+  let blessingExitFinalized = false;
+
+  function finalizeEntryBlessingHide() {
+    if (blessingExitFinalized || !entryGateMessage) return;
+    blessingExitFinalized = true;
+    entryGateMessage.classList.remove("blessing-exit");
+    entryGateMessage.classList.add("hidden");
+    entryGateMessage.setAttribute("aria-hidden", "true");
+    entryGateMessage.style.display = "none";
+    if (entryGate) {
+      entryGate.classList.add("gate-blessing-hidden");
+    }
+  }
+
+  function hideEntryBlessing() {
+    if (blessingHidden) return;
+    blessingHidden = true;
+    if (!entryGateMessage) return;
+
+    entryGateMessage.classList.add("blessing-exit");
+    if (entryGate) {
+      entryGate.classList.add("gate-blessing-hiding");
+    }
+
+    entryGateMessage.addEventListener(
+      "animationend",
+      (e) => {
+        if (e.animationName !== "blessingRecede") return;
+        finalizeEntryBlessingHide();
+      },
+      { once: true }
+    );
+
+    setTimeout(finalizeEntryBlessingHide, BLESSING_EXIT_MS + 80);
+  }
+
   function onEnvelopeTimeUpdate() {
     if (!entryVideo) return;
     const d = entryVideo.duration;
+    if (Number.isFinite(d) && d > 3.5 && entryVideo.currentTime >= d - 3.8) {
+      hideEntryBlessing();
+    }
     if (Number.isFinite(d) && d > 2.5 && entryVideo.currentTime >= d - 2.8) {
       try {
         entryVideo.pause();
