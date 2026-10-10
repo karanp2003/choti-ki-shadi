@@ -361,6 +361,172 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/"/g, "&quot;");
   }
 
+  const EVENT_FRAME_INSET = 6;
+
+  function computeContainRect(containerW, containerH, mediaW, mediaH) {
+    if (!mediaW || !mediaH) {
+      return { x: 0, y: 0, w: containerW, h: containerH };
+    }
+    const scale = Math.min(containerW / mediaW, containerH / mediaH);
+    const w = mediaW * scale;
+    const h = mediaH * scale;
+    return {
+      x: (containerW - w) / 2,
+      y: (containerH - h) / 2,
+      w,
+      h,
+    };
+  }
+
+  function measureInviteTextLayers(frame) {
+    const overlay = frame.querySelector(".event-invite-overlay");
+    if (!overlay) return [];
+    const frameRect = frame.getBoundingClientRect();
+    const selectors =
+      ".event-invite-title, .event-date-weekday, .event-date-bar, .event-date-num, .event-date-myy, .event-invite-time";
+    const layers = [];
+
+    overlay.querySelectorAll(selectors).forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const style = getComputedStyle(el);
+      const x = r.left - frameRect.left - EVENT_FRAME_INSET;
+      const y = r.top - frameRect.top - EVENT_FRAME_INSET;
+      const fontSize = parseFloat(style.fontSize) || 16;
+      const lineHeight = parseFloat(style.lineHeight) || fontSize * 1.2;
+      const baselineY = y + lineHeight * 0.78;
+
+      layers.push({
+        text: el.textContent || "",
+        x: x + r.width / 2,
+        y: baselineY,
+        font: `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
+        color: style.color,
+        shadow: style.textShadow,
+        align: "center",
+      });
+    });
+
+    return layers;
+  }
+
+  function drawInviteTextLayer(ctx, layer) {
+    ctx.save();
+    ctx.font = layer.font;
+    ctx.fillStyle = layer.color;
+    ctx.textAlign = layer.align;
+    ctx.textBaseline = "alphabetic";
+    if (layer.shadow && layer.shadow !== "none") {
+      ctx.shadowColor = "rgba(0, 0, 0, 0.45)";
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetY = 2;
+    }
+    ctx.fillText(layer.text, layer.x, layer.y);
+    ctx.restore();
+  }
+
+  function initEventInviteComposite(frame) {
+    const video = frame.querySelector("video.event-invite-src");
+    const canvas = frame.querySelector("canvas.event-invite-composite");
+    if (!video || !canvas) return;
+
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
+
+    let textLayers = [];
+    let rafId = 0;
+    let running = false;
+    let innerW = 1;
+    let innerH = 1;
+    let dpr = 1;
+    const bgColor =
+      frame.classList.contains("event-invite--dark")
+        ? "#0c1824"
+        : frame.classList.contains("event-invite--arch")
+          ? "#faf6f0"
+          : "#faf8f5";
+
+    const resizeCanvas = () => {
+      const wasCompositeActive = frame.classList.contains("is-composite-active");
+      if (wasCompositeActive) {
+        frame.classList.remove("is-composite-active");
+      }
+
+      innerW = Math.max(1, frame.clientWidth - EVENT_FRAME_INSET * 2);
+      innerH = Math.max(1, frame.clientHeight - EVENT_FRAME_INSET * 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(innerW * dpr);
+      canvas.height = Math.round(innerH * dpr);
+      canvas.style.width = `${innerW}px`;
+      canvas.style.height = `${innerH}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      textLayers = measureInviteTextLayers(frame);
+
+      if (wasCompositeActive) {
+        frame.classList.add("is-composite-active");
+      }
+    };
+
+    const drawFrame = () => {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, innerW, innerH);
+
+      if (video.readyState >= 2 && video.videoWidth) {
+        const rect = computeContainRect(innerW, innerH, video.videoWidth, video.videoHeight);
+        ctx.drawImage(video, rect.x, rect.y, rect.w, rect.h);
+      }
+
+      textLayers.forEach((layer) => drawInviteTextLayer(ctx, layer));
+    };
+
+    const tick = () => {
+      if (!running) return;
+      drawFrame();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (running) return;
+      resizeCanvas();
+      frame.classList.add("is-composite-active");
+      running = true;
+      tick();
+    };
+
+    const stop = () => {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((e) => e.isIntersecting);
+        if (visible) start();
+        else stop();
+      },
+      { rootMargin: "80px", threshold: 0.05 }
+    );
+    io.observe(frame);
+
+    const ro = new ResizeObserver(() => {
+      resizeCanvas();
+      if (running) drawFrame();
+    });
+    ro.observe(frame);
+
+    video.addEventListener("loadeddata", () => {
+      resizeCanvas();
+      if (running) drawFrame();
+    });
+
+    document.fonts.ready.then(() => {
+      resizeCanvas();
+      if (running) drawFrame();
+    });
+
+    video.play().catch(() => {});
+  }
+
   function parseInviteDateParts(dateStr) {
     const raw = String(dateStr || "");
     const segments = raw.split("·").map((s) => s.trim());
@@ -402,8 +568,11 @@ document.addEventListener("DOMContentLoaded", () => {
               ? "event-invite--arch"
               : "event-invite--light";
 
-        const media = item.video || item.image || "";
+        const bakedVideo = item.composedVideo || item.videoWithText || "";
+        const media = bakedVideo || item.video || item.image || "";
         const isVideo = /\.mp4(\?|$)/i.test(media);
+        const useComposite =
+          !bakedVideo && isVideo && (eventsCfg.compositeVideoCards !== false);
         const parsed = item.inviteDate || parseInviteDateParts(item.date);
         const { weekday, day, monthYear } = parsed;
         const cardTitle = item.cardTitle || item.dayTitle || item.title;
@@ -415,19 +584,18 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("");
 
         const mediaTag = isVideo
-          ? `<video class="event-invite-bg" playsinline muted loop autoplay preload="metadata" src="${escapeHtml(media)}"></video>`
+          ? `<video class="event-invite-bg event-invite-src" playsinline muted loop autoplay preload="metadata" src="${escapeHtml(media)}"></video>`
           : `<img class="event-invite-bg" src="${escapeHtml(media)}" alt="${escapeHtml(item.title)}" loading="lazy" />`;
 
-        const blockExtra = item.highlighted ? " event-block--wedding" : "";
+        const compositeCanvas = useComposite
+          ? `<canvas class="event-invite-composite" aria-hidden="true"></canvas>`
+          : "";
 
-        return `
-        <article class="event-block reveal${blockExtra}">
-          <header class="event-day-header">
-            <span class="event-day-label">${escapeHtml(item.dayLabel || "")}</span>
-          </header>
-          <div class="event-invite-frame ${inviteClass}">
-            ${mediaTag}
-            <div class="event-invite-overlay">
+        const overlayBlock =
+          bakedVideo || !isVideo
+            ? ""
+            : `
+            <div class="event-invite-overlay${useComposite ? " event-invite-overlay--for-measure" : ""}">
               <div class="event-invite-stack">
                 <h3 class="event-invite-title${titleClass}">${escapeHtml(cardTitle)}</h3>
                 <div class="event-date-row">
@@ -439,7 +607,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <p class="event-invite-time">${escapeHtml(item.time || "")}</p>
               </div>
-            </div>
+            </div>`;
+
+        const bakedAria = bakedVideo
+          ? ` aria-label="${escapeHtml(`${cardTitle} — ${weekday} ${day} ${monthYear} — ${item.time || ""}`)}"`
+          : "";
+
+        const blockExtra = item.highlighted ? " event-block--wedding" : "";
+
+        return `
+        <article class="event-block reveal${blockExtra}">
+          <header class="event-day-header">
+            <span class="event-day-label">${escapeHtml(item.dayLabel || "")}</span>
+          </header>
+          <div class="event-invite-frame ${inviteClass}${useComposite ? " event-invite-frame--composite" : ""}"${bakedAria}>
+            ${compositeCanvas}
+            ${mediaTag}
+            ${overlayBlock}
           </div>
           <div class="evt-details">
             <span class="evt-tagline">${escapeHtml(item.description || "")}</span>
@@ -472,8 +656,12 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="event-day-cards">${cards}</div>
     `;
 
-    mount.querySelectorAll("video.event-invite-bg").forEach((vid) => {
+    mount.querySelectorAll("video.event-invite-src, video.event-invite-bg").forEach((vid) => {
       vid.play().catch(() => {});
+    });
+
+    mount.querySelectorAll(".event-invite-frame--composite").forEach((frame) => {
+      initEventInviteComposite(frame);
     });
   }
 

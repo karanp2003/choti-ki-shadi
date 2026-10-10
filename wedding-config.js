@@ -100,6 +100,8 @@ window.WEDDING_CONFIG = {
     subheading: "The Celebration Unfolds",
     heading: "Three Sacred\nCeremonies",
     intro: "Three joyful celebrations uniting two loving souls and families.",
+    // Bake background + invite text into one canvas “video” per card (set false to use HTML overlay only)
+    compositeVideoCards: true,
     items: [
       {
         id: "haldi",
