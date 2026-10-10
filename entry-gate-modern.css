@@ -58,26 +58,35 @@
   min-height: 100%;
 }
 
+/* Wax seal sits ~48% from top on envelope video 1-(10) — align “Tap to Open” on white seal */
 .entry-gate--modern-bliss.entry-gate--type2 .entry-gate-tap-hint {
-  top: 53%;
+  top: 48%;
   z-index: 5;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -58%);
   font-family: "Satisfy", cursive;
-  font-size: clamp(0.95rem, 3.5vw, 1.35rem);
-  letter-spacing: 0.03em;
+  font-size: clamp(0.9rem, 3.2vw, 1.25rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
   white-space: nowrap;
+  color: #1a1210;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.45);
   animation: sealHintBreathe 2.8s ease-in-out infinite;
 }
 
 .entry-gate--modern-bliss.entry-gate--type2 .entry-gate-message {
   font-family: "Satisfy", cursive;
   top: 72%;
+  color: #1a1210;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.35);
 }
 
+/* Black copy on seal + envelope (reference video), not cream overlay */
 .entry-gate--modern-bliss.entry-overlay--dark .entry-gate-tap-hint,
-.entry-gate--modern-bliss.entry-overlay--dark .entry-gate-message {
-  color: #f8f4ec;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.65);
+.entry-gate--modern-bliss.entry-overlay--light .entry-gate-tap-hint,
+.entry-gate--modern-bliss.entry-overlay--dark .entry-gate-message,
+.entry-gate--modern-bliss.entry-overlay--light .entry-gate-message {
+  color: #1a1210;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.4);
 }
 
 .entry-gate--modern-bliss .entry-gate-tap-hint.hidden,

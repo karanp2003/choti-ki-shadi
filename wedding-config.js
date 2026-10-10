@@ -27,7 +27,8 @@ window.WEDDING_CONFIG = {
   entry: {
     enabled: true,
     variantType: "type2",
-    overlayStyle: "dark",
+    overlayStyle: "light",
+    tapHintTopPercent: 48,
     entryVariantId: "entry-video-envelope-10",
     videoUrl:
       "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(10).mp4",

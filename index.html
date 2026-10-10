@@ -246,22 +246,50 @@
       letter-spacing: 0.08em;
     }
 
-    .scroll-indicator {
-      margin-top: 2rem;
-      display: inline-flex;
+    .hero-scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(1.25rem, 4vw, 2.75rem);
+      z-index: 8;
+      transform: translateX(-50%);
+      display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      animation: cueBounce 2s infinite ease-in-out;
+      gap: 0.4rem;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    @keyframes cueBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
+    .hero-scroll-cue.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-scroll-cue span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.7rem, 2.2vw, 0.8rem);
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+    }
+
+    .hero-scroll-cue svg {
+      width: 22px;
+      height: 22px;
+      color: var(--sage-dark);
+      animation: heroScrollArrow 2s ease-in-out infinite;
+    }
+
+    @keyframes heroScrollArrow {
+      0%, 100% { transform: translateY(0); opacity: 0.85; }
+      50% { transform: translateY(7px); opacity: 1; }
     }
 
     /* ========================================================
@@ -869,7 +897,7 @@
   </button>
 
   <!-- InviteVibes entry-gate--type1: full-screen envelope video + tap to open -->
-  <div id="entry-gate" class="entry-gate--type2 entry-overlay--dark entry-gate--modern-bliss entry-gate--buffering" role="button" tabindex="0" aria-label="Tap to open invitation">
+  <div id="entry-gate" class="entry-gate--type2 entry-overlay--light entry-gate--modern-bliss entry-gate--buffering" role="button" tabindex="0" aria-label="Tap to open invitation">
     <div id="entry-loader">
       <div class="loader-ring" aria-hidden="true"></div>
       <p class="loader-names" id="entry-loader-names">Antima &amp; Saksham</p>
@@ -910,13 +938,14 @@ Antima &amp; Saksham</div>
           <p class="parent-sub">Beloved Son of Mathur Family</p>
         </div>
 
-        <div class="scroll-indicator">
-          <span>Scroll to Scratch the Date</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"></path>
-          </svg>
-        </div>
       </div>
+
+      <button type="button" class="hero-scroll-cue" id="hero-scroll-cue" aria-label="Scroll down">
+        <span>Scroll Down</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </button>
     </section>
 
     <!-- ========================================================

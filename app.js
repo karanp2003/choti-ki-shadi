@@ -120,8 +120,26 @@ document.addEventListener("DOMContentLoaded", () => {
           audioBtn.classList.add("visible");
         }
         setTimeout(initScratchCards, 100);
+        showHeroScrollCue();
       }, 800);
     }
+  }
+
+  function showHeroScrollCue() {
+    const cue = document.getElementById("hero-scroll-cue");
+    const target = document.getElementById("scratch-section");
+    if (!cue || cue.dataset.bound === "1") return;
+
+    cue.dataset.bound = "1";
+    cue.addEventListener("click", () => {
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    requestAnimationFrame(() => {
+      setTimeout(() => cue.classList.add("is-visible"), 400);
+    });
   }
 
   function markEntryReady() {
@@ -243,6 +261,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (entryTapHint) {
       entryTapHint.style.fontFamily = "'Satisfy', cursive";
+      if (entryConfig.tapHintTopPercent != null) {
+        entryTapHint.style.top = `${entryConfig.tapHintTopPercent}%`;
+      }
     }
     if (entryGateMessage) {
       entryGateMessage.style.fontFamily = "'Satisfy', cursive";
@@ -280,6 +301,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   initEntryGate();
+
+  if (entryConfig.enabled === false) {
+    showHeroScrollCue();
+  }
 
   // ==========================================
   // 3. Exact InviteVibes Scratch Cards
