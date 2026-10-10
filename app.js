@@ -119,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (audioBtn) {
           audioBtn.classList.add("visible");
         }
+        activatePetals();
         setTimeout(initScratchCards, 100);
         showHeroScrollCue();
       }, 800);
@@ -172,14 +173,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function hideEntryGateText() {
+  function hideEntryTapHint() {
+    if (entryGate) {
+      entryGate.classList.add("gate-tap-hidden", "video-playing");
+    }
     if (entryTapHint) {
       entryTapHint.classList.add("hidden");
       entryTapHint.setAttribute("aria-hidden", "true");
-    }
-    if (entryGateMessage) {
-      entryGateMessage.classList.add("hidden");
-      entryGateMessage.setAttribute("aria-hidden", "true");
+      entryTapHint.style.display = "none";
     }
   }
 
@@ -187,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isEntryReady || isEnvelopeOpening) return;
     isEnvelopeOpening = true;
 
-    hideEntryGateText();
+    hideEntryTapHint();
     playAudio();
 
     if (entryGate) {
@@ -281,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     entryGate.addEventListener("pointerdown", () => {
       if (isEntryReady && !isEnvelopeOpening) {
-        hideEntryGateText();
+        hideEntryTapHint();
       }
     });
 
@@ -303,7 +304,145 @@ document.addEventListener("DOMContentLoaded", () => {
   initEntryGate();
 
   if (entryConfig.enabled === false) {
+    activatePetals();
     showHeroScrollCue();
+  }
+
+  // ==========================================
+  // Modern Bliss events (sacred ceremony cards)
+  // ==========================================
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function parseInviteDateParts(dateStr) {
+    const raw = String(dateStr || "");
+    const segments = raw.split("·").map((s) => s.trim());
+    const weekday =
+      segments[0] && /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/i.test(segments[0])
+        ? segments[0]
+        : "";
+    const datePart = segments.length > 1 ? segments[1] : raw;
+    const match = datePart.match(/(\d{1,2})\s+(\w+)\s+(\d{4})/);
+    if (!match) {
+      return { weekday, day: "", monthYear: "" };
+    }
+    const monthWord = match[2];
+    const monthShort =
+      monthWord.length > 3 ? `${monthWord.charAt(0).toUpperCase()}${monthWord.slice(1, 3).toLowerCase()}` : monthWord;
+    return {
+      weekday,
+      day: String(match[1]).padStart(2, "0"),
+      monthYear: `${monthShort} ${match[3]}`,
+    };
+  }
+
+  function renderModernBlissEvents() {
+    const mount = document.getElementById("events-mount");
+    const eventsCfg = config.events;
+    if (!mount || !eventsCfg?.items?.length) return;
+
+    const sub = escapeHtml(eventsCfg.subheading || "The Celebration Unfolds");
+    const heading = escapeHtml(eventsCfg.heading || "Wedding Festivities");
+    const intro = escapeHtml(eventsCfg.intro || "");
+
+    const cards = eventsCfg.items
+      .map((item) => {
+        const inviteStyle = item.inviteStyle || "light";
+        const inviteClass =
+          inviteStyle === "dark"
+            ? "event-invite--dark"
+            : inviteStyle === "arch"
+              ? "event-invite--arch"
+              : "event-invite--light";
+
+        const media = item.video || item.image || "";
+        const isVideo = /\.mp4(\?|$)/i.test(media);
+        const parsed = item.inviteDate || parseInviteDateParts(item.date);
+        const { weekday, day, monthYear } = parsed;
+        const cardTitle = item.cardTitle || item.dayTitle || item.title;
+        const titleClass = String(cardTitle).includes("\n") ? " is-multiline" : "";
+
+        const dress = item.dressCode;
+        const dressDots = (dress?.colors || [])
+          .map((c) => `<span class="evt-dresscode-dot" style="background:${escapeHtml(c)}"></span>`)
+          .join("");
+
+        const mediaTag = isVideo
+          ? `<video class="event-invite-bg" playsinline muted loop autoplay preload="metadata" src="${escapeHtml(media)}"></video>`
+          : `<img class="event-invite-bg" src="${escapeHtml(media)}" alt="${escapeHtml(item.title)}" loading="lazy" />`;
+
+        const blockExtra = item.highlighted ? " event-block--wedding" : "";
+
+        return `
+        <article class="event-block reveal${blockExtra}">
+          <header class="event-day-header">
+            <span class="event-day-label">${escapeHtml(item.dayLabel || "")}</span>
+          </header>
+          <div class="event-invite-frame ${inviteClass}">
+            ${mediaTag}
+            <div class="event-invite-overlay">
+              <div class="event-invite-stack">
+                <h3 class="event-invite-title${titleClass}">${escapeHtml(cardTitle)}</h3>
+                <div class="event-date-row">
+                  <span class="event-date-weekday">${escapeHtml(weekday)}</span>
+                  <span class="event-date-bar">|</span>
+                  <span class="event-date-num">${escapeHtml(day)}</span>
+                  <span class="event-date-bar">|</span>
+                  <span class="event-date-myy">${escapeHtml(monthYear)}</span>
+                </div>
+                <p class="event-invite-time">${escapeHtml(item.time || "")}</p>
+              </div>
+            </div>
+          </div>
+          <div class="evt-details">
+            <span class="evt-tagline">${escapeHtml(item.description || "")}</span>
+            ${
+              dress
+                ? `<div class="evt-dresscode">
+                <span class="evt-dresscode-lbl">Attire</span>
+                <span class="evt-dresscode-names">${escapeHtml(dress.label || "")}</span>
+                <div class="evt-dresscode-dots">${dressDots}</div>
+                ${dress.names ? `<span class="evt-dresscode-note">${escapeHtml(dress.names)}</span>` : ""}
+              </div>`
+                : ""
+            }
+            <div class="evt-venue">
+              <span class="evt-venue-name">${escapeHtml(item.venue || "")}</span>
+              <a href="${escapeHtml(item.mapsUrl || "#")}" target="_blank" rel="noopener" class="evt-dir-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                Directions
+              </a>
+            </div>
+          </div>
+        </article>`;
+      })
+      .join("");
+
+    mount.innerHTML = `
+      <span class="sec-label">${sub}</span>
+      <h2 class="sec-heading" id="events-heading">${heading}</h2>
+      ${intro ? `<p class="events-intro">${intro}</p>` : ""}
+      <div class="event-day-cards">${cards}</div>
+    `;
+
+    mount.querySelectorAll("video.event-invite-bg").forEach((vid) => {
+      vid.play().catch(() => {});
+    });
+  }
+
+  renderModernBlissEvents();
+
+  function activatePetals() {
+    const canvas = document.getElementById("petals-canvas");
+    if (canvas) {
+      canvas.classList.add("active");
+    }
+    document.dispatchEvent(new Event("gateEnded"));
   }
 
   // ==========================================
@@ -538,64 +677,84 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   function initPetalsCanvas() {
     const canvas = document.getElementById("petals-canvas");
-    if (!canvas) return;
+    if (!canvas || config.theme?.petalsEnabled === false) return;
 
     const ctx = canvas.getContext("2d");
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
+    let running = false;
 
-    window.addEventListener("resize", () => {
+    const petalColors = ["#C47A82", "#B85C5C", "#E8C4B8", "#9E4D56"];
+    const dustColors = ["#B8956A", "#D4BC8E", "#F0E6D4"];
+
+    function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-    });
+    }
+
+    window.addEventListener("resize", resize);
 
     const particles = [];
-    const count = Math.min(30, Math.floor(width / 36));
+    const count = Math.min(52, Math.max(28, Math.floor(width / 22)));
 
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 4 + 2,
-        speedX: Math.random() * 0.8 - 0.4,
-        speedY: Math.random() * 0.8 + 0.3,
-        opacity: Math.random() * 0.55 + 0.25,
+        y: Math.random() * height - height,
+        size: Math.random() * 5 + 2.5,
+        speedX: Math.random() * 0.6 - 0.3,
+        speedY: Math.random() * 1.1 + 0.45,
+        opacity: Math.random() * 0.5 + 0.2,
         wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: Math.random() * 0.02 + 0.01,
-        color: Math.random() > 0.45 ? "#C47A82" : "#B8956A",
-        isPetal: Math.random() > 0.5,
+        wobbleSpeed: Math.random() * 0.025 + 0.008,
+        rotation: Math.random() * Math.PI,
+        rotSpeed: Math.random() * 0.04 - 0.02,
+        color:
+          Math.random() > 0.35
+            ? petalColors[Math.floor(Math.random() * petalColors.length)]
+            : dustColors[Math.floor(Math.random() * dustColors.length)],
+        isPetal: Math.random() > 0.38,
       });
     }
 
+    function drawPetal(p) {
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size * 1.6, p.size * 0.85, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
     function animate() {
+      if (!running) return;
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((p) => {
         p.wobble += p.wobbleSpeed;
-        p.x += p.speedX + Math.sin(p.wobble) * 0.6;
+        p.rotation += p.rotSpeed;
+        p.x += p.speedX + Math.sin(p.wobble) * 0.75;
         p.y += p.speedY;
 
-        if (p.y > height + 10) {
-          p.y = -10;
+        if (p.y > height + 16) {
+          p.y = -12 - Math.random() * 80;
           p.x = Math.random() * width;
         }
-        if (p.x > width + 10) p.x = -10;
-        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 12) p.x = -12;
+        if (p.x < -12) p.x = width + 12;
 
         ctx.save();
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.opacity;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
 
         if (p.isPetal) {
-          ctx.beginPath();
-          ctx.ellipse(p.x, p.y, p.size * 1.5, p.size, p.wobble, 0, Math.PI * 2);
-          ctx.fill();
+          drawPetal(p);
         } else {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size * 0.7, 0, Math.PI * 2);
-          ctx.shadowBlur = 4;
+          ctx.arc(0, 0, p.size * 0.55, 0, Math.PI * 2);
+          ctx.shadowBlur = 6;
           ctx.shadowColor = "#B8956A";
           ctx.fill();
+          ctx.shadowBlur = 0;
         }
 
         ctx.restore();
@@ -603,7 +762,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       requestAnimationFrame(animate);
     }
-    animate();
+
+    function start() {
+      if (running) return;
+      running = true;
+      animate();
+    }
+
+    document.addEventListener("gateEnded", start);
+    if (canvas.classList.contains("active")) {
+      start();
+    }
   }
   initPetalsCanvas();
 

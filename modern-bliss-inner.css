@@ -1,39 +1,59 @@
-/* Inner invitation palette — matches Modern Bliss burgundy envelope entry */
+/* Modern Bliss — unified lavender page background (#e6e1f2) like reference ceremony UI */
 
 html.theme-modern-bliss {
-  --cream: #faf6f2;
-  --cream-2: #f3ebe4;
-  --cream-3: #eadfce;
-  --sage: #c47a82;
-  --sage-dark: #9e4d56;
+  --mb-page-bg: #e6e1f2;
+  --cream: #f7f0ea;
+  --cream-2: #e6e1f2;
+  --cream-3: #ddd6ee;
+  --sage: #b85c5c;
+  --sage-dark: #8f3d45;
   --sage-deep: #5c2430;
-  --sage-light: #f3e4e6;
-  --sage-pale: #fdf9f8;
-  --sage-border: #e5d0d4;
+  --sage-light: #f0e0e2;
+  --sage-pale: #faf5f2;
+  --sage-border: #cfc8e0;
   --gold: #b8956a;
   --gold-light: #d4bc8e;
   --gold-pale: #f0e6d4;
-  --text-dark: #2c1818;
-  --text-mid: #5c4048;
-  --text-light: #8a7078;
-  --border: #e8ddd8;
+  --terracotta: #9e4d3f;
+  --terra-dark: #5c2430;
+  --burgundy: #3d1a22;
+  --text-dark: #2a1818;
+  --text-mid: #5a4040;
+  --text-light: #8a7070;
+  --border: #d5cee8;
   --primary-rgb: 158, 77, 86;
   --primary-dark-rgb: 92, 36, 48;
   --primary-deep-rgb: 61, 26, 34;
   --accent-rgb: 184, 149, 106;
   --env-bg: #2c1218;
+  --heading-font: "Pinyon Script", cursive;
 }
 
-html.theme-modern-bliss .hero-blush-section {
-  background: radial-gradient(circle at 50% 22%, #fffaf8 0%, #f7ebe8 50%, #edd4d0 100%);
+html.theme-modern-bliss body {
+  background: var(--mb-page-bg);
+}
+
+html.theme-modern-bliss #main-content {
+  background: var(--mb-page-bg);
+}
+
+/* Match events section — no cream/lavender seam */
+html.theme-modern-bliss .hero-blush-section,
+html.theme-modern-bliss #scratch-section,
+html.theme-modern-bliss #countdown-section,
+html.theme-modern-bliss .welcome-blush-section,
+html.theme-modern-bliss .story-blush-section,
+html.theme-modern-bliss .footer-blush-section,
+html.theme-modern-bliss #locked {
+  background: var(--mb-page-bg);
 }
 
 html.theme-modern-bliss .hero-card {
-  border-color: rgba(184, 149, 106, 0.35);
-  box-shadow: 0 24px 64px -12px rgba(92, 36, 48, 0.14),
-    0 0 0 4px rgba(196, 122, 130, 0.12) inset;
+  border-color: rgba(184, 149, 106, 0.38);
+  box-shadow: 0 24px 64px -12px rgba(92, 36, 48, 0.12),
+    0 0 0 4px rgba(184, 149, 106, 0.1) inset;
 }
 
 html.theme-modern-bliss .footer-blush-section {
-  border-top-color: rgba(158, 77, 86, 0.25);
+  border-top-color: rgba(92, 36, 48, 0.12);
 }

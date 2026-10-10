@@ -95,21 +95,28 @@ window.WEDDING_CONFIG = {
     ],
   },
 
-  // Schedule of Events (Configured exactly as requested)
+  // Modern Bliss–style sacred ceremonies (3 days — same card UI as reference)
   events: {
-    subheading: "The Celebrations Unfold",
-    heading: "Wedding Festivities",
+    subheading: "The Celebration Unfolds",
+    heading: "Three Sacred\nCeremonies",
+    intro: "Three joyful celebrations uniting two loving souls and families.",
     items: [
       {
         id: "haldi",
         dayLabel: "DAY 1",
+        dayTitle: "Haldi",
+        cardTitle: "Haldi",
         title: "Haldi Ceremony",
         date: "Friday · 04 December 2026",
-        time: "12:30 PM (Lunch Time)",
-        description: "Auspicious yellow hues, fragrant turmeric, family giggles, and joyous beats followed by a lavish festive lunch.",
+        inviteDate: { weekday: "Friday", day: "04", monthYear: "Dec 2026" },
+        time: "12:30 PM Onwards",
+        description:
+          "Auspicious yellow hues, fragrant turmeric, family giggles, and joyous beats followed by a lavish festive lunch.",
         venue: "Poolside Lawns & Courtyard",
         mapsUrl: "https://maps.google.com/?q=Jaipur",
-        image: "https://pub-b147f35c3bd843e3834167baded16edb.r2.dev/users/6a38c351a72cdffebb09bc37/animated/carnival/714ad36f-83ff-40d1-a6dc-6d7efd785430.webp",
+        video:
+          "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/events-optimized/haldi/1.mp4",
+        inviteStyle: "light",
         dressCode: {
           label: "Shades of Yellow & Marigold",
           colors: ["#F7D070", "#E8A317", "#FFF8DC"],
@@ -118,35 +125,47 @@ window.WEDDING_CONFIG = {
       },
       {
         id: "sangeet",
-        dayLabel: "DAY 1",
+        dayLabel: "DAY 2",
+        dayTitle: "Sangeet Night",
+        cardTitle: "Sangeet",
         title: "Sangeet & Musical Night",
         date: "Friday · 04 December 2026",
-        time: "7:30 PM Onwards (Night)",
-        description: "An enchanting evening of high-voltage dance performances, dhol beats, live music, and dinner under the stars.",
+        inviteDate: { weekday: "Friday", day: "04", monthYear: "Dec 2026" },
+        time: "7:30 PM Onwards",
+        description:
+          "An enchanting evening of dance, dhol beats, live music, and celebratory dinner under the stars.",
         venue: "Grand Crystal Ballroom",
         mapsUrl: "https://maps.google.com/?q=Jaipur",
-        image: "https://pub-b147f35c3bd843e3834167baded16edb.r2.dev/users/6a38c351a72cdffebb09bc37/animated/sangeet/9493c344-69bd-47c0-9b2b-5096d5005698.webp",
+        video:
+          "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/events-optimized/sangeet/1.mp4",
+        inviteStyle: "dark",
         dressCode: {
           label: "Dark & Dazzling Glam / Indo-Western",
-          colors: ["#1A1A2E", "#D4AF37", "#E2B4B1"],
-          names: "Midnight Navy · Gold · Rose",
+          colors: ["#1A1A2E", "#B8956A", "#5C2430"],
+          names: "Midnight Navy · Gold · Burgundy",
         },
       },
       {
         id: "wedding",
-        dayLabel: "DAY 2",
-        title: "Wedding Ceremony (Phere)",
+        dayLabel: "DAY 3",
+        dayTitle: "The Sacred Union",
+        cardTitle: "Wedding",
+        title: "Wedding Ceremony",
         date: "Saturday · 05 December 2026",
-        time: "10:30 AM – 2:00 PM (Day Wedding)",
-        description: "The auspicious Baraat arrival, Varmala, and the sacred seven pheras around the holy fire, followed by a Royal Wedding Feast.",
+        inviteDate: { weekday: "Saturday", day: "05", monthYear: "Dec 2026" },
+        time: "10:30 AM",
+        description:
+          "The auspicious Baraat, Varmala, and seven sacred pheras around the holy fire, followed by a Royal Wedding Feast.",
         venue: "Mandapam Royal Heritage Palace",
         mapsUrl: "https://maps.google.com/?q=Jaipur",
-        image: "https://pub-b147f35c3bd843e3834167baded16edb.r2.dev/users/6a38c351a72cdffebb09bc37/animated/phere/c4215868-219f-440f-8207-abd795ed44d1.webp",
+        video:
+          "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/events-optimized/wedding/1.mp4",
+        inviteStyle: "arch",
         highlighted: true,
         dressCode: {
           label: "Traditional Festive / Pastel & Royal Indian",
-          colors: ["#E2B4B1", "#D4AF37", "#F2EAE1"],
-          names: "Blush Rose · Gold · Ivory",
+          colors: ["#FFF8F3", "#9E4D56", "#B8956A"],
+          names: "Ivory · Terracotta · Gold",
         },
       },
     ],

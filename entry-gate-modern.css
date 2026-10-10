@@ -89,15 +89,24 @@
   text-shadow: 0 1px 8px rgba(255, 255, 255, 0.4);
 }
 
+/* Only hide “Tap to Open” — blessing message stays during envelope opening */
 .entry-gate--modern-bliss .entry-gate-tap-hint.hidden,
-.entry-gate--modern-bliss .entry-gate-message.hidden,
 .entry-gate--modern-bliss.video-playing .entry-gate-tap-hint,
-.entry-gate--modern-bliss.video-playing .entry-gate-message {
+.entry-gate--modern-bliss.gate-tap-hidden .entry-gate-tap-hint {
+  display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
   animation: none !important;
   pointer-events: none !important;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
+  transition: none !important;
+}
+
+.entry-gate--modern-bliss.video-playing .entry-gate-message,
+.entry-gate--modern-bliss.gate-tap-hidden .entry-gate-message {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 0.92 !important;
+  z-index: 4;
 }
 
 @keyframes sealHintBreathe {

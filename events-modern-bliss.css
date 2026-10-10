@@ -1,0 +1,238 @@
+/* Modern Bliss — InviteVibes ceremony cards (full video + text on sky area) */
+
+#events-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: clamp(4rem, 8vw, 6rem) 1.25rem 5rem;
+  background: var(--mb-page-bg, #e6e1f2);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+#events-section .sec-label {
+  color: #5c3d6e;
+}
+
+#events-section .sec-heading {
+  white-space: pre-line;
+  margin-bottom: 0.35rem;
+  color: #5c2430;
+}
+
+#events-section .events-intro {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 3.2vw, 1.2rem);
+  color: #5a4048;
+  max-width: 34rem;
+  margin: 0.5rem auto 2.5rem;
+  line-height: 1.55;
+}
+
+#events-section .event-day-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 3.25rem;
+  max-width: min(400px, 92vw);
+  margin: 0 auto;
+}
+
+#events-section .event-block {
+  margin: 0;
+  text-align: center;
+}
+
+#events-section .event-day-header {
+  margin-bottom: 1rem;
+}
+
+#events-section .event-day-label {
+  color: #5c2430;
+  letter-spacing: 0.12em;
+}
+
+/* Full 9:16 card — video fills frame, text in upper sky (reference layout) */
+#events-section .event-invite-frame {
+  --invite-pad-top: 19%;
+  --invite-pad-bottom: 72%;
+  position: relative;
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  max-height: min(92vh, 720px);
+  margin: 0 auto;
+  padding: 6px;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 12px 40px rgba(61, 26, 34, 0.12);
+  overflow: hidden;
+}
+
+#events-section .event-invite-bg {
+  position: absolute;
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  border-radius: 0.75rem;
+  object-fit: contain;
+  object-position: center center;
+  z-index: 0;
+  display: block;
+  background: #f9f8f5;
+}
+
+#events-section .event-invite--dark .event-invite-bg {
+  background: #0c1824;
+}
+
+#events-section .event-invite--light .event-invite-bg {
+  background: #faf8f5;
+}
+
+#events-section .event-invite--arch .event-invite-bg {
+  background: #faf6f0;
+}
+
+#events-section .event-invite-overlay {
+  position: absolute;
+  inset: 6px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start !important;
+  text-align: center;
+  padding: var(--invite-pad-top) 0.65rem 0;
+  pointer-events: none;
+  background: transparent;
+  overflow: visible;
+}
+
+#events-section .event-invite-stack {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+#events-section .event-invite-title {
+  margin: 0;
+  padding: 0 0.35rem;
+  width: 100%;
+  text-align: center;
+  font-family: "Pinyon Script", cursive;
+  font-size: clamp(2.35rem, 8.5vw, 3.35rem);
+  font-weight: 400;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+#events-section .event-date-row {
+  display: inline-flex;
+  width: auto;
+  max-width: 100%;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  gap: 0.22rem 0.38rem;
+  margin-top: 0.4rem;
+  padding: 0 0.25rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.72rem, 2.65vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+#events-section .event-date-weekday,
+#events-section .event-date-myy {
+  flex: 0 0 auto;
+}
+
+#events-section .event-date-num {
+  flex: 0 0 auto;
+  font-size: clamp(1.65rem, 6.5vw, 2.55rem);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 0.05rem;
+}
+
+#events-section .event-date-bar {
+  opacity: 0.45;
+  font-weight: 400;
+  padding: 0 0.1rem;
+}
+
+#events-section .event-invite-time {
+  margin: 0.38rem 0 0;
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Light / Haldi — dark text on bright top of video */
+#events-section .event-invite--light .event-invite-title {
+  color: #b4236f;
+}
+
+#events-section .event-invite--light .event-date-row,
+#events-section .event-invite--light .event-invite-time {
+  color: #2c1810;
+}
+
+/* Dark / Sangeet — white text on night sky (reference) */
+#events-section .event-invite--dark .event-invite-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.2rem, 8vw, 3.1rem);
+  font-weight: 500;
+  color: #f8f4ec;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+#events-section .event-invite--dark .event-date-row,
+#events-section .event-invite--dark .event-invite-time {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Arch / Wedding */
+#events-section .event-invite--arch .event-invite-title {
+  color: #b4236f;
+}
+
+#events-section .event-invite--arch .event-date-row,
+#events-section .event-invite--arch .event-invite-time {
+  color: #2c1810;
+}
+
+#events-section .evt-details {
+  text-align: center;
+  background: #f9f8f5;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1rem;
+  margin-top: 1rem;
+  box-shadow: 0 8px 24px rgba(61, 26, 34, 0.06);
+}
+
+#events-section .evt-dresscode,
+#events-section .evt-venue {
+  align-items: center;
+}
+
+@media (max-width: 360px) {
+  #events-section .event-date-row {
+    font-size: 0.68rem;
+    gap: 0.15rem 0.28rem;
+  }
+
+  #events-section .event-date-num {
+    font-size: 1.5rem;
+  }
+}
