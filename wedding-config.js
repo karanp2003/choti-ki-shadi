@@ -9,9 +9,9 @@
 window.WEDDING_CONFIG = {
   // Theme styling
   theme: {
-    name: "blush-gold",
-    primaryColor: "#E2B4B1",      // Romantic Blush Pink
-    accentColor: "#D4AF37",       // Soft Warm Gold
+    name: "modern-bliss",
+    primaryColor: "#9E4D56",      // Burgundy / terracotta (envelope)
+    accentColor: "#B8956A",       // Antique gold
     headingFont: "Pinyon Script",
     petalsEnabled: true,
   },
@@ -23,12 +23,17 @@ window.WEDDING_CONFIG = {
     src: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/April/Kriti%20%26%20Manmeet/ReelAudio-14254.mp3",
   },
 
-  // Video Envelope Opening Screen (First Impression)
+  // Modern Bliss entry gate (red terracotta envelope — same video as invitevibes.in Modern Bliss)
   entry: {
     enabled: true,
-    videoUrl: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(8).mp4",
-    message: "With love and blessings,\nwe invite you to celebrate the wedding of:",
-    tapHint: "Tap to Open Invitation",
+    variantType: "type2",
+    overlayStyle: "dark",
+    entryVariantId: "entry-video-envelope-10",
+    videoUrl:
+      "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(10).mp4",
+    message: "With love and blessings,\nwe invite you to the wedding of\nAntima & Saksham",
+    tapHint: "Tap to Open",
+    loaderNames: "Antima & Saksham",
   },
 
   // Hero Section

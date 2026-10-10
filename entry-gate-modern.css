@@ -1,0 +1,102 @@
+/* Modern Bliss entry gate — red envelope video + wax-seal tap hint (InviteVibes type2) */
+
+.entry-gate--modern-bliss #entry-loader {
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  background: #2c1218;
+  transition: opacity 0.7s;
+}
+
+.entry-gate--modern-bliss #entry-loader.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.entry-gate--modern-bliss .loader-ring {
+  border: 2px solid rgba(220, 208, 179, 0.16);
+  border-top-color: #c4b48e;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.7rem;
+  animation: loaderSpin 0.9s linear infinite;
+}
+
+@keyframes loaderSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.entry-gate--modern-bliss .loader-names {
+  color: #f5f0e8;
+  font-family: "Pinyon Script", cursive;
+  font-size: clamp(1.8rem, 7vw, 2.2rem);
+}
+
+.entry-gate--modern-bliss .loader-sub {
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(220, 208, 179, 0.55);
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 0.58rem;
+}
+
+.entry-gate--modern-bliss.entry-gate--type2 {
+  background: #2c1218;
+}
+
+.entry-gate--modern-bliss.entry-gate--type2 video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+.entry-gate--modern-bliss.entry-gate--type2 .entry-gate-tap-hint {
+  top: 53%;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  font-family: "Satisfy", cursive;
+  font-size: clamp(0.95rem, 3.5vw, 1.35rem);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  animation: sealHintBreathe 2.8s ease-in-out infinite;
+}
+
+.entry-gate--modern-bliss.entry-gate--type2 .entry-gate-message {
+  font-family: "Satisfy", cursive;
+  top: 72%;
+}
+
+.entry-gate--modern-bliss.entry-overlay--dark .entry-gate-tap-hint,
+.entry-gate--modern-bliss.entry-overlay--dark .entry-gate-message {
+  color: #f8f4ec;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.65);
+}
+
+.entry-gate--modern-bliss .entry-gate-tap-hint.hidden,
+.entry-gate--modern-bliss .entry-gate-message.hidden,
+.entry-gate--modern-bliss.video-playing .entry-gate-tap-hint,
+.entry-gate--modern-bliss.video-playing .entry-gate-message {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  animation: none !important;
+  pointer-events: none !important;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+@keyframes sealHintBreathe {
+  0%,
+  100% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 1;
+  }
+}

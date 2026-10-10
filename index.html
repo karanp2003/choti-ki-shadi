@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-modern-bliss">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a0a0f" />
+  <meta name="theme-color" content="#2c1218" />
   <title>Antima & Saksham — Wedding Celebration</title>
   <meta name="description" content="With love and blessings, join us as we celebrate the wedding of Antima Gupta & Saksham Mathur on 4th & 5th December 2026." />
   
@@ -13,31 +13,37 @@
   <!-- Google Fonts: InviteVibes Blush & Gold Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Tenor+Sans&family=Montserrat:wght@300;400;500;600;700&family=Satisfy&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Italianno&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Tenor+Sans&family=Montserrat:wght@300;400;500;600;700&family=Satisfy&display=swap" rel="stylesheet" />
 
   <!-- Blush & Gold Theme Stylesheet -->
   <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="entry-gate-modern.css" />
+  <link rel="stylesheet" href="modern-bliss-inner.css" />
 
   <style>
     :root {
       --stable-vh: 100svh;
-      --cream: #fdfbf7;
-      --cream-2: #faf5f0;
-      --cream-3: #f2eae1;
-      --sage: #e2b4b1;
-      --sage-dark: #ba7a76;
-      --sage-deep: #8a4f4c;
-      --sage-light: #f7dcda;
-      --sage-pale: #fff9f8;
-      --sage-border: #eac9c7;
-      --gold: #d4af37;
-      --gold-light: #e8ce73;
-      --gold-pale: #f7efc8;
-      --text-dark: #2c2a29;
-      --text-mid: #5a5552;
-      --text-light: #8c8480;
-      --border: #f0e5db;
+      --cream: #faf6f2;
+      --cream-2: #f3ebe4;
+      --cream-3: #eadfce;
+      --sage: #c47a82;
+      --sage-dark: #9e4d56;
+      --sage-deep: #5c2430;
+      --sage-light: #f3e4e6;
+      --sage-pale: #fdf9f8;
+      --sage-border: #e5d0d4;
+      --gold: #b8956a;
+      --gold-light: #d4bc8e;
+      --gold-pale: #f0e6d4;
+      --text-dark: #2c1818;
+      --text-mid: #5c4048;
+      --text-light: #8a7078;
+      --border: #e8ddd8;
       --white: #fff;
+      --primary-rgb: 158, 77, 86;
+      --primary-dark-rgb: 92, 36, 48;
+      --primary-deep-rgb: 61, 26, 34;
+      --accent-rgb: 184, 149, 106;
     }
 
     body {
@@ -65,114 +71,7 @@
       z-index: 10;
     }
 
-    /* ========================================================
-       1. ENVELOPE ENTRY GATE (InviteVibes Exact Envelope Video)
-       - Uses object-fit: contain so video is NEVER cropped
-       - Card opens completely, then fades out to reveal website
-       ======================================================== */
-    #entry-gate {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100vh;
-      height: 100svh;
-      z-index: 9999;
-      background: #1a0a0f;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      -webkit-user-select: none;
-      user-select: none;
-      overflow: hidden;
-    }
-
-    #entry-gate video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      max-width: 540px;
-      max-height: 960px;
-      margin: auto;
-      object-fit: contain;
-      background: #1a0a0f;
-      pointer-events: none;
-      image-rendering: -webkit-optimize-contrast;
-      transform: translateZ(0);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      filter: contrast(1.05) brightness(1.02);
-    }
-
-    .entry-gate-tap-hint {
-      position: absolute;
-      top: 28%;
-      left: 50%;
-      transform: translate(-50%, 0) scale(1);
-      z-index: 4;
-      pointer-events: none;
-      text-align: center;
-      font-family: 'Satisfy', cursive;
-      font-size: clamp(1.6rem, 5.5vw, 2.6rem);
-      color: #f5f0e8;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
-      white-space: nowrap;
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: hintBreathe 2.4s ease-in-out infinite;
-    }
-
-    .entry-gate-message {
-      position: absolute;
-      bottom: 12%;
-      left: 50%;
-      transform: translate(-50%, 0);
-      z-index: 4;
-      pointer-events: none;
-      text-align: center;
-      font-family: 'Satisfy', cursive;
-      font-size: clamp(1.25rem, 4.5vw, 2rem);
-      line-height: 1.35;
-      color: #f5f0e8;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
-      white-space: pre-line;
-      width: 90%;
-      max-width: 550px;
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    #entry-gate.video-playing .entry-gate-tap-hint,
-    #entry-gate.video-playing .entry-gate-message {
-      opacity: 0 !important;
-      pointer-events: none !important;
-      transform: translate(-50%, -12px) scale(0.94) !important;
-    }
-
-    #entry-gate.fade-out {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-
-    @keyframes hintBreathe {
-      0%, 100% { opacity: 0.75; transform: translate(-50%, 0); }
-      50% { opacity: 1; transform: translate(-50%, -4px); }
-    }
-
-    /* ========================================================
-       2. MAIN CONTENT (Hidden until envelope has fully opened!)
-       ======================================================== */
-    #main-content {
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-
-    #main-content.visible {
-      visibility: visible;
-      opacity: 1;
-    }
+    /* Entry gate: InviteVibes theme.css (entry-gate--type1) */
 
     /* Floating Audio Button */
     #audio-btn {
@@ -240,7 +139,7 @@
       align-items: center;
       justify-content: center;
       padding: clamp(2.5rem, 6vw, 4.5rem) 1.25rem;
-      background: radial-gradient(circle at 50% 25%, #fffdfa 0%, #fbf4ec 65%, #f4e8dc 100%);
+      background: radial-gradient(circle at 50% 25%, #fffaf8 0%, #f7ebe8 55%, #edd4d0 100%);
       position: relative;
       text-align: center;
     }
@@ -248,7 +147,7 @@
     .hero-card {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(226, 180, 177, 0.5);
+      border: 1px solid rgba(158, 77, 86, 0.35);
       border-radius: 24px;
       padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 3rem);
       max-width: 660px;
@@ -375,7 +274,7 @@
       padding: clamp(3.5rem, 6vw, 5rem) 1.5rem;
       background: var(--cream);
       text-align: center;
-      border-top: 1px solid rgba(226, 180, 177, 0.3);
+      border-top: 1px solid rgba(158, 77, 86, 0.22);
     }
 
     .sec-label {
@@ -656,7 +555,7 @@
 
     .event-card {
       background: #ffffff;
-      border: 1px solid rgba(226, 180, 177, 0.6);
+      border: 1px solid rgba(158, 77, 86, 0.4);
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 14px 40px rgba(138, 79, 76, 0.08);
@@ -878,7 +777,7 @@
       background: #ffffff;
       padding: clamp(4rem, 7vw, 6rem) 1.5rem;
       text-align: center;
-      border-top: 1px solid rgba(226, 180, 177, 0.3);
+      border-top: 1px solid rgba(158, 77, 86, 0.22);
     }
 
     .footer-script-names {
@@ -969,18 +868,16 @@
     </svg>
   </button>
 
-  <!-- ========================================================
-       1. ENVELOPE ENTRY GATE OVERLAY
-       - Video is contained (NEVER cropped)
-       - When tapped, plays video until card is fully opened
-       - Only after full opening does #main-content appear!
-       ======================================================== -->
-  <div id="entry-gate" class="entry-gate--type1 entry-overlay--dark entry-gate--ready" role="button" tabindex="0" aria-label="Tap to open invitation">
-    <video id="entry-video" playsinline preload="auto" muted>
-      <source src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(8).mp4" type="video/mp4" />
-    </video>
-    <div class="entry-gate-tap-hint">Tap to Open</div>
-    <div class="entry-gate-message">With love and blessings,
+  <!-- InviteVibes entry-gate--type1: full-screen envelope video + tap to open -->
+  <div id="entry-gate" class="entry-gate--type2 entry-overlay--dark entry-gate--modern-bliss entry-gate--buffering" role="button" tabindex="0" aria-label="Tap to open invitation">
+    <div id="entry-loader">
+      <div class="loader-ring" aria-hidden="true"></div>
+      <p class="loader-names" id="entry-loader-names">Antima &amp; Saksham</p>
+      <p class="loader-sub">Loading invitation</p>
+    </div>
+    <video id="entry-video" playsinline preload="auto" muted></video>
+    <div class="entry-gate-tap-hint" id="entry-tap-hint">Tap to Open</div>
+    <div class="entry-gate-message" id="entry-gate-message">With love and blessings,
 we invite you to the wedding of
 Antima &amp; Saksham</div>
   </div>
@@ -998,7 +895,7 @@ Antima &amp; Saksham</div>
         <p class="intro-text">Together with their families, cordially invite you to celebrate the wedding of</p>
         
         <div class="couple-block">
-          <span class="couple-name">Antima Gupta</span>
+          <span class="couple-name">Antima</span>
           <p class="parent-sub">Beloved Daughter of Gupta Family</p>
         </div>
 
@@ -1009,7 +906,7 @@ Antima &amp; Saksham</div>
         </div>
 
         <div class="couple-block">
-          <span class="couple-name">Saksham Mathur</span>
+          <span class="couple-name">Saksham</span>
           <p class="parent-sub">Beloved Son of Mathur Family</p>
         </div>
 

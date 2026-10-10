@@ -1,0 +1,39 @@
+/* Inner invitation palette — matches Modern Bliss burgundy envelope entry */
+
+html.theme-modern-bliss {
+  --cream: #faf6f2;
+  --cream-2: #f3ebe4;
+  --cream-3: #eadfce;
+  --sage: #c47a82;
+  --sage-dark: #9e4d56;
+  --sage-deep: #5c2430;
+  --sage-light: #f3e4e6;
+  --sage-pale: #fdf9f8;
+  --sage-border: #e5d0d4;
+  --gold: #b8956a;
+  --gold-light: #d4bc8e;
+  --gold-pale: #f0e6d4;
+  --text-dark: #2c1818;
+  --text-mid: #5c4048;
+  --text-light: #8a7078;
+  --border: #e8ddd8;
+  --primary-rgb: 158, 77, 86;
+  --primary-dark-rgb: 92, 36, 48;
+  --primary-deep-rgb: 61, 26, 34;
+  --accent-rgb: 184, 149, 106;
+  --env-bg: #2c1218;
+}
+
+html.theme-modern-bliss .hero-blush-section {
+  background: radial-gradient(circle at 50% 22%, #fffaf8 0%, #f7ebe8 50%, #edd4d0 100%);
+}
+
+html.theme-modern-bliss .hero-card {
+  border-color: rgba(184, 149, 106, 0.35);
+  box-shadow: 0 24px 64px -12px rgba(92, 36, 48, 0.14),
+    0 0 0 4px rgba(196, 122, 130, 0.12) inset;
+}
+
+html.theme-modern-bliss .footer-blush-section {
+  border-top-color: rgba(158, 77, 86, 0.25);
+}

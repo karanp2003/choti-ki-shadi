@@ -86,13 +86,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // 2. Exact Envelope Gate Timing & Transition
+  // 2. InviteVibes entry gate (Modern Bliss: type2 + envelope video 1-10)
   // ==========================================
   const entryGate = document.getElementById("entry-gate");
   const entryVideo = document.getElementById("entry-video");
+  const entryLoader = document.getElementById("entry-loader");
+  const entryTapHint = document.getElementById("entry-tap-hint");
+  const entryGateMessage = document.getElementById("entry-gate-message");
+  const entryLoaderNames = document.getElementById("entry-loader-names");
   const mainContent = document.getElementById("main-content");
   let isEnvelopeOpening = false;
   let isEnvelopeFinished = false;
+  let isEntryReady = false;
+
+  const entryConfig = config.entry || {};
+  const entryVideoUrl =
+    entryConfig.videoUrl ||
+    "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(10).mp4";
 
   function finishEnvelope() {
     if (isEnvelopeFinished) return;
@@ -106,17 +116,60 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mainContent) {
           mainContent.classList.add("visible");
         }
-        // Initialize scratch cards once layout is rendered and visible
+        if (audioBtn) {
+          audioBtn.classList.add("visible");
+        }
         setTimeout(initScratchCards, 100);
       }, 800);
     }
   }
 
+  function markEntryReady() {
+    if (isEntryReady || !entryGate) return;
+    isEntryReady = true;
+    entryGate.classList.remove("entry-gate--buffering");
+    entryGate.classList.add("entry-gate--ready");
+    if (entryLoader) {
+      entryLoader.classList.add("hide");
+    }
+    if (entryVideo) {
+      try {
+        if (entryVideo.currentTime === 0) {
+          entryVideo.currentTime = 0.001;
+        }
+      } catch (e) {
+        /* seek may fail on some browsers before metadata */
+      }
+    }
+  }
+
+  function onEnvelopeTimeUpdate() {
+    if (!entryVideo) return;
+    const d = entryVideo.duration;
+    if (Number.isFinite(d) && d > 2.5 && entryVideo.currentTime >= d - 2.8) {
+      try {
+        entryVideo.pause();
+      } catch (e) {}
+      finishEnvelope();
+    }
+  }
+
+  function hideEntryGateText() {
+    if (entryTapHint) {
+      entryTapHint.classList.add("hidden");
+      entryTapHint.setAttribute("aria-hidden", "true");
+    }
+    if (entryGateMessage) {
+      entryGateMessage.classList.add("hidden");
+      entryGateMessage.setAttribute("aria-hidden", "true");
+    }
+  }
+
   function startOpenEnvelope() {
-    if (isEnvelopeOpening) return;
+    if (!isEntryReady || isEnvelopeOpening) return;
     isEnvelopeOpening = true;
 
-    // Start background music immediately on user gesture
+    hideEntryGateText();
     playAudio();
 
     if (entryGate) {
@@ -125,7 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (entryVideo) {
       entryVideo.muted = true;
-      entryVideo.currentTime = 0.001;
+      try {
+        entryVideo.currentTime = 0;
+      } catch (e) {}
       const playPromise = entryVideo.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
@@ -133,18 +188,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Exact timing: reduced by 2 seconds from end (d - 2.8s) so user doesn't wait
-      entryVideo.addEventListener("timeupdate", () => {
-        const d = entryVideo.duration;
-        if (Number.isFinite(d) && d > 2.5 && entryVideo.currentTime >= d - 2.8) {
-          try { entryVideo.pause(); } catch (e) {}
-          finishEnvelope();
-        }
-      });
+      entryVideo.addEventListener("timeupdate", onEnvelopeTimeUpdate);
+      entryVideo.addEventListener("ended", finishEnvelope, { once: true });
 
-      entryVideo.addEventListener("ended", finishEnvelope);
-
-      // Fallback safety timeout if video stalls
       setTimeout(() => {
         if (!isEnvelopeFinished) {
           finishEnvelope();
@@ -155,18 +201,85 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  if (entryGate) {
-    entryGate.addEventListener("click", startOpenEnvelope);
-  }
+  function initEntryGate() {
+    if (entryConfig.enabled === false) {
+      finishEnvelope();
+      return;
+    }
 
-  // Preload video frame on ready
-  if (entryVideo) {
-    entryVideo.addEventListener("loadeddata", () => {
-      if (entryVideo.currentTime === 0) {
-        try { entryVideo.currentTime = 0.001; } catch (e) {}
+    const loaderNames =
+      entryConfig.loaderNames ||
+      [config.hero?.bride?.name, config.hero?.groom?.name].filter(Boolean).join(" & ") ||
+      "Antima & Saksham";
+
+    if (entryLoaderNames) {
+      entryLoaderNames.textContent = loaderNames;
+    }
+    if (entryTapHint && entryConfig.tapHint) {
+      entryTapHint.textContent = entryConfig.tapHint;
+    }
+    if (entryGateMessage && entryConfig.message) {
+      entryGateMessage.textContent = entryConfig.message;
+    }
+
+    if (!entryGate || !entryVideo) {
+      finishEnvelope();
+      return;
+    }
+
+    const variantType = entryConfig.variantType || "type2";
+    const overlayClass =
+      entryConfig.overlayStyle === "light" ? "entry-overlay--light" : "entry-overlay--dark";
+
+    entryGate.classList.remove(
+      "entry-gate--type1",
+      "entry-gate--type2",
+      "entry-gate--type3",
+      "entry-overlay--light",
+      "entry-overlay--dark",
+      "entry-gate--modern-bliss"
+    );
+    entryGate.classList.add(`entry-gate--${variantType}`, overlayClass, "entry-gate--modern-bliss");
+
+    if (entryTapHint) {
+      entryTapHint.style.fontFamily = "'Satisfy', cursive";
+    }
+    if (entryGateMessage) {
+      entryGateMessage.style.fontFamily = "'Satisfy', cursive";
+    }
+
+    entryVideo.src = entryVideoUrl;
+    entryVideo.load();
+
+    const onVideoReady = () => {
+      markEntryReady();
+    };
+
+    entryVideo.addEventListener("loadeddata", onVideoReady, { once: true });
+    entryVideo.addEventListener("canplay", onVideoReady, { once: true });
+
+    entryGate.addEventListener("pointerdown", () => {
+      if (isEntryReady && !isEnvelopeOpening) {
+        hideEntryGateText();
       }
     });
+
+    entryGate.addEventListener("click", startOpenEnvelope);
+    entryGate.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        startOpenEnvelope();
+      }
+    });
+
+    setTimeout(() => {
+      if (!isEntryReady) {
+        markEntryReady();
+      }
+    }, 12000);
   }
+
+  initEntryGate();
 
   // ==========================================
   // 3. Exact InviteVibes Scratch Cards
@@ -294,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Celebration Crackers / Confetti Blast (InviteVibes Exact Effect)
   function fireCelebrationCrackers() {
-    const colors = ["#E2B4B1", "#fdfbf7", "#D4AF37", "#BA7A76", "#FFD700", "#FF69B4", "#FFF8DC"];
+    const colors = ["#C47A82", "#faf6f2", "#B8956A", "#9E4D56", "#D4BC8E", "#5C2430", "#F0E6D4"];
 
     if (typeof window.confetti === "function") {
       // 1. Center burst
@@ -424,7 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: Math.random() * 0.55 + 0.25,
         wobble: Math.random() * Math.PI * 2,
         wobbleSpeed: Math.random() * 0.02 + 0.01,
-        color: Math.random() > 0.45 ? "#E2B4B1" : "#D4AF37",
+        color: Math.random() > 0.45 ? "#C47A82" : "#B8956A",
         isPetal: Math.random() > 0.5,
       });
     }
@@ -456,7 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size * 0.7, 0, Math.PI * 2);
           ctx.shadowBlur = 4;
-          ctx.shadowColor = "#D4AF37";
+          ctx.shadowColor = "#B8956A";
           ctx.fill();
         }
 
