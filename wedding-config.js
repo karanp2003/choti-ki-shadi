@@ -12,8 +12,11 @@ window.WEDDING_CONFIG = {
     name: "modern-bliss",
     primaryColor: "#9E4D56",      // Burgundy / terracotta (envelope)
     accentColor: "#B8956A",       // Antique gold
-    headingFont: "Pinyon Script",
+    headingFont: "Alex Brush",
+    nameFont: "Alex Brush",
+    bodyFont: "Cormorant Garamond",
     petalsEnabled: true,
+    petalIntensity: 0.4,
   },
 
   // Romantic Wedding Background Song (Exact song from Blush & Gold theme)

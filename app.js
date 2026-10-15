@@ -322,13 +322,42 @@ document.addEventListener("DOMContentLoaded", () => {
     entryVideo.addEventListener("loadeddata", onVideoReady, { once: true });
     entryVideo.addEventListener("canplay", onVideoReady, { once: true });
 
-    entryGate.addEventListener("pointerdown", () => {
-      if (isEntryReady && !isEnvelopeOpening) {
-        hideEntryTapHint();
-      }
+    let gatePressStart = null;
+
+    entryGate.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (!isEntryReady || isEnvelopeOpening) return;
+        gatePressStart = { x: e.clientX, y: e.clientY, pointerId: e.pointerId };
+      },
+      { passive: true }
+    );
+
+    entryGate.addEventListener("pointercancel", () => {
+      gatePressStart = null;
     });
 
-    entryGate.addEventListener("click", startOpenEnvelope);
+    entryGate.addEventListener("click", (e) => {
+      if (!isEntryReady || isEnvelopeOpening) return;
+
+      if (gatePressStart && e.pointerId != null && gatePressStart.pointerId === e.pointerId) {
+        const dx = e.clientX - gatePressStart.x;
+        const dy = e.clientY - gatePressStart.y;
+        gatePressStart = null;
+        if (Math.hypot(dx, dy) > 16) {
+          return;
+        }
+      } else if (gatePressStart) {
+        const dx = e.clientX - gatePressStart.x;
+        const dy = e.clientY - gatePressStart.y;
+        gatePressStart = null;
+        if (Math.hypot(dx, dy) > 16) {
+          return;
+        }
+      }
+
+      startOpenEnvelope();
+    });
     entryGate.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -924,26 +953,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("resize", resize);
 
+    const intensity = Math.min(1, Math.max(0.15, config.theme?.petalIntensity ?? 0.4));
     const particles = [];
-    const count = Math.min(52, Math.max(28, Math.floor(width / 22)));
+    const baseCount = Math.min(52, Math.max(28, Math.floor(width / 22)));
+    const count = Math.max(8, Math.round(baseCount * intensity * 0.55));
 
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height - height,
-        size: Math.random() * 5 + 2.5,
-        speedX: Math.random() * 0.6 - 0.3,
-        speedY: Math.random() * 1.1 + 0.45,
-        opacity: Math.random() * 0.5 + 0.2,
+        size: (Math.random() * 4 + 2) * (0.75 + intensity * 0.25),
+        speedX: (Math.random() * 0.4 - 0.2) * intensity,
+        speedY: (Math.random() * 0.65 + 0.28) * intensity,
+        opacity: (Math.random() * 0.28 + 0.1) * intensity,
         wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: Math.random() * 0.025 + 0.008,
+        wobbleSpeed: Math.random() * 0.018 + 0.006,
         rotation: Math.random() * Math.PI,
-        rotSpeed: Math.random() * 0.04 - 0.02,
+        rotSpeed: Math.random() * 0.03 - 0.015,
         color:
           Math.random() > 0.35
             ? petalColors[Math.floor(Math.random() * petalColors.length)]
             : dustColors[Math.floor(Math.random() * dustColors.length)],
-        isPetal: Math.random() > 0.38,
+        isPetal: Math.random() > 0.55,
       });
     }
 
@@ -960,7 +991,7 @@ document.addEventListener("DOMContentLoaded", () => {
       particles.forEach((p) => {
         p.wobble += p.wobbleSpeed;
         p.rotation += p.rotSpeed;
-        p.x += p.speedX + Math.sin(p.wobble) * 0.75;
+        p.x += p.speedX + Math.sin(p.wobble) * 0.45 * intensity;
         p.y += p.speedY;
 
         if (p.y > height + 16) {

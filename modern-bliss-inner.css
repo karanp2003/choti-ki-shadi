@@ -26,7 +26,16 @@ html.theme-modern-bliss {
   --primary-deep-rgb: 61, 26, 34;
   --accent-rgb: 184, 149, 106;
   --env-bg: #2c1218;
-  --heading-font: "Pinyon Script", cursive;
+  --name-font: "Alex Brush", "Great Vibes", cursive;
+  --heading-font: var(--name-font);
+  --name-gold: linear-gradient(
+    165deg,
+    #e8d4a8 8%,
+    #c9a962 42%,
+    #b8956a 78%,
+    #9a7d4f 100%
+  );
+  --accent-serif: "Cormorant Garamond", Georgia, serif;
 }
 
 html.theme-modern-bliss body {
@@ -56,4 +65,139 @@ html.theme-modern-bliss .hero-card {
 
 html.theme-modern-bliss .footer-blush-section {
   border-top-color: rgba(92, 36, 48, 0.12);
+}
+
+/* Softer petal rain */
+html.theme-modern-bliss #petals-canvas.active {
+  opacity: 0.42;
+}
+
+/* Ganesha crest — static (theme.css applies a float animation) */
+html.theme-modern-bliss .ganesha-icon {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Large display type — Alex Brush + champagne gold (matches couple names) */
+html.theme-modern-bliss .mb-display-gold {
+  font-family: var(--name-font);
+  font-weight: 400;
+  background: var(--name-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 6px rgba(184, 149, 106, 0.28));
+}
+
+html.theme-modern-bliss .couple-name,
+html.theme-modern-bliss .footer-script-names,
+html.theme-modern-bliss .footer-couple-name,
+html.theme-modern-bliss .sec-heading,
+html.theme-modern-bliss #events-section .sec-heading,
+html.theme-modern-bliss .welcome-title,
+html.theme-modern-bliss .cd-script,
+html.theme-modern-bliss .polaroid-caption,
+html.theme-modern-bliss .amp,
+html.theme-modern-bliss .hero-date-script,
+html.theme-modern-bliss .scratch-heading,
+html.theme-modern-bliss .countdown-title,
+html.theme-modern-bliss .story-heading,
+html.theme-modern-bliss .welcome-script {
+  font-family: var(--name-font);
+  font-weight: 400;
+  line-height: 1.08;
+  background: var(--name-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 6px rgba(184, 149, 106, 0.28));
+}
+
+/* Date / time — serif on light/arch cards only (Sangeet dark keeps white in events CSS) */
+html.theme-modern-bliss .cd-num,
+html.theme-modern-bliss .sc-val,
+html.theme-modern-bliss #events-section .event-invite--light .event-date-row,
+html.theme-modern-bliss #events-section .event-invite--light .event-date-weekday,
+html.theme-modern-bliss #events-section .event-invite--light .event-date-num,
+html.theme-modern-bliss #events-section .event-invite--light .event-date-myy,
+html.theme-modern-bliss #events-section .event-invite--light .event-date-bar,
+html.theme-modern-bliss #events-section .event-invite--light .event-invite-time,
+html.theme-modern-bliss #events-section .event-invite--arch .event-date-row,
+html.theme-modern-bliss #events-section .event-invite--arch .event-date-weekday,
+html.theme-modern-bliss #events-section .event-invite--arch .event-date-num,
+html.theme-modern-bliss #events-section .event-invite--arch .event-date-myy,
+html.theme-modern-bliss #events-section .event-invite--arch .event-date-bar,
+html.theme-modern-bliss #events-section .event-invite--arch .event-invite-time {
+  font-family: var(--accent-serif);
+  font-weight: 700;
+  font-style: normal;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  filter: none;
+}
+
+html.theme-modern-bliss .sc-val,
+html.theme-modern-bliss .cd-num {
+  color: var(--sage-deep);
+  font-weight: 600;
+}
+
+html.theme-modern-bliss #events-section .event-invite--light .event-invite-time,
+html.theme-modern-bliss #events-section .event-invite--arch .event-invite-time {
+  font-weight: 600;
+}
+
+html.theme-modern-bliss #events-section .event-invite--light .event-date-bar,
+html.theme-modern-bliss #events-section .event-invite--arch .event-date-bar {
+  font-weight: 400;
+}
+
+/* Event video cards — large titles (per-card colors; dark = white) */
+html.theme-modern-bliss #events-section .event-invite-title {
+  font-family: var(--name-font);
+  font-weight: 400;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  filter: none;
+}
+
+html.theme-modern-bliss #events-section .event-invite--dark .event-invite-title,
+html.theme-modern-bliss #events-section .event-invite--dark .event-date-row,
+html.theme-modern-bliss #events-section .event-invite--dark .event-date-weekday,
+html.theme-modern-bliss #events-section .event-invite--dark .event-date-num,
+html.theme-modern-bliss #events-section .event-invite--dark .event-date-myy,
+html.theme-modern-bliss #events-section .event-invite--dark .event-date-bar,
+html.theme-modern-bliss #events-section .event-invite--dark .event-invite-time {
+  font-family: var(--accent-serif);
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  background: none;
+  filter: none;
+}
+
+html.theme-modern-bliss #events-section .event-invite--dark .event-invite-title {
+  font-family: var(--name-font);
+  font-weight: 400;
+  color: #f8f4ec;
+  -webkit-text-fill-color: #f8f4ec;
+}
+
+html.theme-modern-bliss #events-section .event-invite--dark .event-date-row,
+html.theme-modern-bliss #events-section .event-invite--dark .event-invite-time {
+  color: rgba(255, 255, 255, 0.96);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
+}
+
+html.theme-modern-bliss .intro-text,
+html.theme-modern-bliss .god-quote,
+html.theme-modern-bliss .save-date-sub,
+html.theme-modern-bliss .events-intro {
+  font-family: var(--accent-serif);
+}
+
+html.theme-modern-bliss .god-quote {
+  font-style: italic;
+  letter-spacing: 0.12em;
 }

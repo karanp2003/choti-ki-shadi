@@ -147,8 +147,8 @@
   padding: 0 0.35rem;
   width: 100%;
   text-align: center;
-  font-family: "Pinyon Script", cursive;
-  font-size: clamp(2.55rem, 9.2vw, 3.65rem);
+  font-family: "Alex Brush", "Great Vibes", cursive;
+  font-size: clamp(2.85rem, 10vw, 4.1rem);
   font-weight: 400;
   line-height: 1.08;
   white-space: nowrap;
@@ -178,6 +178,7 @@
 
 #events-section .event-date-num {
   flex: 0 0 auto;
+  font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(1.8rem, 7.2vw, 2.8rem);
   font-weight: 700;
   line-height: 1;
@@ -211,16 +212,22 @@
 
 /* Dark / Sangeet — white text on night sky (reference) */
 #events-section .event-invite--dark .event-invite-title {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(2.4rem, 8.8vw, 3.35rem);
-  font-weight: 500;
+  font-family: "Alex Brush", "Great Vibes", cursive;
+  font-size: clamp(2.75rem, 9.5vw, 3.85rem);
+  font-weight: 400;
   color: #f8f4ec;
+  -webkit-text-fill-color: #f8f4ec;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
 }
 
 #events-section .event-invite--dark .event-date-row,
+#events-section .event-invite--dark .event-date-weekday,
+#events-section .event-invite--dark .event-date-num,
+#events-section .event-invite--dark .event-date-myy,
+#events-section .event-invite--dark .event-date-bar,
 #events-section .event-invite--dark .event-invite-time {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.96);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 }
 
