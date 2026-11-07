@@ -91,11 +91,10 @@ async function build() {
     JSON.stringify(
       {
         version,
-        apiPath: "/api/og-image",
         landscape: { path: "/og-share.jpg", width: 1200, height: 630 },
         square: { path: "/og-share-square.jpg", width: 1200, height: 1200 },
         whatsapp: {
-          path: "/api/og-image",
+          path: "/og-wa.jpg",
           file: "og-wa.jpg",
           width: meta.width || 800,
           height: meta.height || 800,

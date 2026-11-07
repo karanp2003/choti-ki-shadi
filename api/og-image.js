@@ -5,11 +5,12 @@ const fs = require("fs");
 const path = require("path");
 
 const CANDIDATES = ["og-wa.jpg", "og-share-square.jpg", "og-share.jpg"];
+const ROOT = path.join(__dirname, "..");
 
 module.exports = (req, res) => {
   let filePath = null;
   for (const name of CANDIDATES) {
-    const p = path.join(process.cwd(), name);
+    const p = path.join(ROOT, name);
     if (fs.existsSync(p)) {
       filePath = p;
       break;

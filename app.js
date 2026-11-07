@@ -1074,7 +1074,7 @@ document.addEventListener("DOMContentLoaded", () => {
         shareCfg.sharePageUrl ||
         (() => {
           const u = new URL(window.location.href);
-          u.searchParams.set("i", "1");
+          u.searchParams.set("i", "2");
           return u.toString();
         })();
 

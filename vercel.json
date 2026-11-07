@@ -3,15 +3,20 @@
   "outputDirectory": ".",
   "installCommand": "npm install",
   "framework": null,
+  "functions": {
+    "api/og-image.js": {
+      "includeFiles": "og-wa.jpg,og-share-square.jpg,og-share.jpg"
+    }
+  },
   "build": {
     "env": {
       "SITE_URL": "https://antima-saksham.vercel.app",
-      "OG_VERSION": "7"
+      "OG_VERSION": "8"
     }
   },
   "headers": [
     {
-      "source": "/(og-share|og-share-square)\\.jpg",
+      "source": "/(og-wa|og-share|og-share-square)\\.jpg",
       "headers": [
         { "key": "Content-Type", "value": "image/jpeg" },
         { "key": "Cache-Control", "value": "public, max-age=3600" },

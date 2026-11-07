@@ -17,7 +17,8 @@ window.WEDDING_CONFIG = {
     whatsappText:
       "With love and blessings, join us as we celebrate the wedding of Antima Gupta & Saksham Mathur on 4 & 5 December 2026!",
     // Share this URL (not only the homepage) so WhatsApp fetches a fresh preview
-    sharePageUrl: "https://antima-saksham.vercel.app/?i=1",
+    sharePageUrl: "https://antima-saksham.vercel.app/?i=2",
+    ogImageUrl: "https://antima-saksham.vercel.app/og-wa.jpg",
   },
 
   // Theme styling

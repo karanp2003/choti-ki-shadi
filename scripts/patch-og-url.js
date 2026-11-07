@@ -20,10 +20,20 @@ const siteUrl =
   normalizeSiteUrl(process.env.VERCEL_PROJECT_PRODUCTION_URL) ||
   "https://antima-saksham.vercel.app";
 
-const configuredImage = normalizeSiteUrl(process.env.OG_IMAGE_URL);
+let configuredImage = normalizeSiteUrl(process.env.OG_IMAGE_URL);
+if (!configuredImage) {
+  try {
+    const cfgPath = path.join(root, "wedding-config.js");
+    const cfgText = fs.readFileSync(cfgPath, "utf8");
+    const m = cfgText.match(/ogImageUrl:\s*"([^"]+)"/);
+    if (m) configuredImage = normalizeSiteUrl(m[1]);
+  } catch {
+    /* optional */
+  }
+}
 
 let ogVersion = process.env.OG_VERSION || "7";
-let imagePath = "/api/og-image";
+let imagePath = "/og-wa.jpg";
 let imageWidth = "800";
 let imageHeight = "800";
 
@@ -31,7 +41,7 @@ if (fs.existsSync(metaPath)) {
   try {
     const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
     ogVersion = meta.version || ogVersion;
-    imagePath = meta.whatsapp?.path || meta.apiPath || imagePath;
+    imagePath = meta.whatsapp?.path || imagePath;
     if (meta.whatsapp?.width) imageWidth = String(meta.whatsapp.width);
     if (meta.whatsapp?.height) imageHeight = String(meta.whatsapp.height);
   } catch {
