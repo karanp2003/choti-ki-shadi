@@ -1,5 +1,6 @@
 {
-  "version": "6",
+  "version": "7",
+  "apiPath": "/api/og-image",
   "landscape": {
     "path": "/og-share.jpg",
     "width": 1200,
@@ -9,5 +10,12 @@
     "path": "/og-share-square.jpg",
     "width": 1200,
     "height": 1200
+  },
+  "whatsapp": {
+    "path": "/api/og-image",
+    "file": "og-wa.jpg",
+    "width": 800,
+    "height": 800,
+    "bytes": 63311
   }
 }

@@ -16,7 +16,8 @@ const root = path.join(__dirname, "..");
 const sourcePath = path.join(root, "share-source.jpg");
 const outPath = path.join(root, "og-share.jpg");
 const outSquarePath = path.join(root, "og-share-square.jpg");
-const version = process.env.OG_VERSION || "6";
+const outWaPath = path.join(root, "og-wa.jpg");
+const version = process.env.OG_VERSION || "7";
 
 if (!fs.existsSync(sourcePath)) {
   console.warn("share-source.jpg missing — skipping OG image build.");
@@ -54,6 +55,16 @@ const squareOverlaySvg = `
         font-size="34" font-weight="600" fill="#2c1818">${subtitle.replace(/&/g, "&amp;")}</text>
 </svg>`;
 
+const waOverlaySvg = `
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+  <rect y="612" width="800" height="188" fill="rgba(250,248,252,0.96)" />
+  <rect y="612" width="800" height="3" fill="#b8956a" opacity="0.85"/>
+  <text x="400" y="668" text-anchor="middle" font-family="Georgia, serif"
+        font-size="36" font-weight="700" fill="#1f1414">WEDDING INVITATION</text>
+  <text x="400" y="712" text-anchor="middle" font-family="Georgia, serif"
+        font-size="24" font-weight="600" fill="#2c1818">${subtitle.replace(/&/g, "&amp;")}</text>
+</svg>`;
+
 async function build() {
   await sharp(sourcePath)
     .resize(1200, 630, { fit: "cover", position: "centre" })
@@ -67,17 +78,28 @@ async function build() {
     .jpeg({ quality: 86, mozjpeg: true, chromaSubsampling: "4:4:4" })
     .toFile(outSquarePath);
 
-  const meta = await sharp(outSquarePath).metadata();
+  await sharp(sourcePath)
+    .resize(800, 800, { fit: "cover", position: "centre" })
+    .composite([{ input: Buffer.from(waOverlaySvg), top: 0, left: 0 }])
+    .jpeg({ quality: 80, mozjpeg: true })
+    .toFile(outWaPath);
+
+  const meta = await sharp(outWaPath).metadata();
+  const waStat = fs.statSync(outWaPath);
   fs.writeFileSync(
     path.join(root, "og-meta.json"),
     JSON.stringify(
       {
         version,
+        apiPath: "/api/og-image",
         landscape: { path: "/og-share.jpg", width: 1200, height: 630 },
-        square: {
-          path: "/og-share-square.jpg",
-          width: meta.width || 1200,
-          height: meta.height || 1200,
+        square: { path: "/og-share-square.jpg", width: 1200, height: 1200 },
+        whatsapp: {
+          path: "/api/og-image",
+          file: "og-wa.jpg",
+          width: meta.width || 800,
+          height: meta.height || 800,
+          bytes: waStat.size,
         },
       },
       null,
@@ -85,7 +107,9 @@ async function build() {
     )
   );
 
-  console.log("Created og-share.jpg and og-share-square.jpg for link previews.");
+  console.log(
+    `Created og-share.jpg, og-share-square.jpg, og-wa.jpg (${waStat.size} bytes) for link previews.`
+  );
 }
 
 build().catch((err) => {

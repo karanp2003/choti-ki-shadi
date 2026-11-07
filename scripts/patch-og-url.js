@@ -22,26 +22,25 @@ const siteUrl =
 
 const configuredImage = normalizeSiteUrl(process.env.OG_IMAGE_URL);
 
-let ogVersion = process.env.OG_VERSION || "6";
-let squarePath = "/og-share-square.jpg";
-let imageWidth = "1200";
-let imageHeight = "1200";
+let ogVersion = process.env.OG_VERSION || "7";
+let imagePath = "/api/og-image";
+let imageWidth = "800";
+let imageHeight = "800";
 
 if (fs.existsSync(metaPath)) {
   try {
     const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
     ogVersion = meta.version || ogVersion;
-    squarePath = meta.square?.path || squarePath;
-    if (meta.square?.width) imageWidth = String(meta.square.width);
-    if (meta.square?.height) imageHeight = String(meta.square.height);
+    imagePath = meta.whatsapp?.path || meta.apiPath || imagePath;
+    if (meta.whatsapp?.width) imageWidth = String(meta.whatsapp.width);
+    if (meta.whatsapp?.height) imageHeight = String(meta.whatsapp.height);
   } catch {
     /* use defaults */
   }
 }
 
-const ogImageBase =
-  configuredImage ||
-  `${siteUrl.replace(/\/$/, "")}${squarePath}?v=${encodeURIComponent(ogVersion)}`;
+// No query string on image URL — WhatsApp breaks on ?v=; page URL ?i=1 busts page cache instead
+const ogImageBase = configuredImage || `${siteUrl.replace(/\/$/, "")}${imagePath}`;
 
 let html = fs.readFileSync(indexPath, "utf8");
 html = html.replaceAll("__SITE_URL__", siteUrl.replace(/\/$/, ""));

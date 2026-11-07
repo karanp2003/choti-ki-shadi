@@ -1070,16 +1070,24 @@ document.addEventListener("DOMContentLoaded", () => {
         shareCfg.whatsappText ||
         `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 4 & 5 December 2026!`;
 
+      const shareUrl =
+        shareCfg.sharePageUrl ||
+        (() => {
+          const u = new URL(window.location.href);
+          u.searchParams.set("i", "1");
+          return u.toString();
+        })();
+
       const shareData = {
         title: shareCfg.ogTitle || `${bride} & ${groom} — Wedding Invitation`,
         text: shareText,
-        url: window.location.href,
+        url: shareUrl,
       };
 
       if (navigator.share) {
         navigator.share(shareData).catch(() => {});
       } else {
-        const clipboardText = `${shareText}\n\n${window.location.href}`;
+        const clipboardText = `${shareText}\n\n${shareUrl}`;
         navigator.clipboard.writeText(clipboardText).then(() => {
           alert("Wedding invitation message copied — paste in WhatsApp!");
         });
