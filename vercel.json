@@ -5,15 +5,22 @@
   "framework": null,
   "build": {
     "env": {
-      "SITE_URL": "https://antima-saksham.vercel.app"
+      "SITE_URL": "https://antima-saksham.vercel.app",
+      "OG_VERSION": "6"
     }
   },
   "headers": [
     {
-      "source": "/og-share.jpg",
+      "source": "/(og-share|og-share-square)\\.jpg",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        { "key": "Content-Type", "value": "image/jpeg" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
+    },
+    {
+      "source": "/",
+      "headers": [{ "key": "Accept-Ranges", "value": "none" }]
     }
   ]
 }

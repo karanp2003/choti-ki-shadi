@@ -10,7 +10,9 @@
 
 After deploy you get a link like:
 
-`https://your-project.vercel.app`
+`https://antima-saksham.vercel.app`
+
+Link preview uses **`og-share-square.jpg`** (1200×1200, better on WhatsApp) with cache key **`?v=6`** — bump `OG_VERSION` in `vercel.json` after image changes.
 
 **Optional — custom domain:** Vercel → Project → Settings → Domains.
 

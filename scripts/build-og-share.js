@@ -15,6 +15,8 @@ try {
 const root = path.join(__dirname, "..");
 const sourcePath = path.join(root, "share-source.jpg");
 const outPath = path.join(root, "og-share.jpg");
+const outSquarePath = path.join(root, "og-share-square.jpg");
+const version = process.env.OG_VERSION || "6";
 
 if (!fs.existsSync(sourcePath)) {
   console.warn("share-source.jpg missing — skipping OG image build.");
@@ -42,14 +44,48 @@ const overlaySvg = `
         font-size="30" font-weight="600" fill="#2c1818">${subtitle.replace(/&/g, "&amp;")}</text>
 </svg>`;
 
+const squareOverlaySvg = `
+<svg width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <rect y="940" width="1200" height="260" fill="rgba(250,248,252,0.96)" />
+  <rect y="940" width="1200" height="3" fill="#b8956a" opacity="0.85"/>
+  <text x="600" y="1015" text-anchor="middle" font-family="Georgia, serif"
+        font-size="52" font-weight="700" fill="#1f1414">WEDDING INVITATION</text>
+  <text x="600" y="1075" text-anchor="middle" font-family="Georgia, serif"
+        font-size="34" font-weight="600" fill="#2c1818">${subtitle.replace(/&/g, "&amp;")}</text>
+</svg>`;
+
 async function build() {
   await sharp(sourcePath)
     .resize(1200, 630, { fit: "cover", position: "centre" })
     .composite([{ input: Buffer.from(overlaySvg), top: 0, left: 0 }])
-    .jpeg({ quality: 88, mozjpeg: true })
+    .jpeg({ quality: 86, mozjpeg: true, chromaSubsampling: "4:4:4" })
     .toFile(outPath);
 
-  console.log("Created og-share.jpg for WhatsApp link preview.");
+  await sharp(sourcePath)
+    .resize(1200, 1200, { fit: "cover", position: "centre" })
+    .composite([{ input: Buffer.from(squareOverlaySvg), top: 0, left: 0 }])
+    .jpeg({ quality: 86, mozjpeg: true, chromaSubsampling: "4:4:4" })
+    .toFile(outSquarePath);
+
+  const meta = await sharp(outSquarePath).metadata();
+  fs.writeFileSync(
+    path.join(root, "og-meta.json"),
+    JSON.stringify(
+      {
+        version,
+        landscape: { path: "/og-share.jpg", width: 1200, height: 630 },
+        square: {
+          path: "/og-share-square.jpg",
+          width: meta.width || 1200,
+          height: meta.height || 1200,
+        },
+      },
+      null,
+      2
+    )
+  );
+
+  console.log("Created og-share.jpg and og-share-square.jpg for link previews.");
 }
 
 build().catch((err) => {
