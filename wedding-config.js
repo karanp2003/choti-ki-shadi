@@ -9,7 +9,8 @@
 window.WEDDING_CONFIG = {
   // Public link + WhatsApp preview (og:image is /og-share.jpg at your Vercel URL)
   share: {
-    ogTitle: "Antima & Saksham — Wedding Invitation",
+    ogTitle: "Wedding Invitation — Antima & Saksham",
+    sharePhoto: "share-source.jpg",
     ogDescription:
       "With love and blessings, you're invited to celebrate our wedding on 4 & 5 December 2026. Tap to open your invitation.",
     ogImagePath: "/og-share.jpg",

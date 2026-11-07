@@ -47,6 +47,12 @@ WhatsApp caches previews. To refresh:
 2. Redeploy.
 3. Test: [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) — paste your URL → **Scrape Again**.
 
-## 4. Replace preview image
+## 4. Couple photo on the preview card
 
-Swap `og-share.jpg` in the project root with your own JPG/PNG (recommended **1200×630**, under ~300 KB), then redeploy.
+- Source photo: `share-source.jpg` (from your WhatsApp/couple image).
+- Build generates `og-share.jpg` with your photo + **dark “Wedding Invitation”** title bar.
+- To change the photo: replace `share-source.jpg`, commit, redeploy (Vercel runs `npm run build`).
+
+## 5. Replace preview image manually
+
+Or swap `og-share.jpg` directly (recommended **1200×630**, under ~300 KB), then redeploy.

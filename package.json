@@ -2,7 +2,10 @@
   "name": "antima-saksham-wedding-invite",
   "private": true,
   "scripts": {
-    "build": "node scripts/patch-og-url.js",
+    "build": "node scripts/build-og-share.js && node scripts/patch-og-url.js",
     "start": "node server.js"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5"
   }
 }
