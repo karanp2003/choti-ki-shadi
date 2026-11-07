@@ -1070,13 +1070,12 @@ document.addEventListener("DOMContentLoaded", () => {
         shareCfg.whatsappText ||
         `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 4 & 5 December 2026!`;
 
-      const shareUrl =
-        shareCfg.sharePageUrl ||
-        (() => {
-          const u = new URL(window.location.href);
-          u.searchParams.set("i", "2");
-          return u.toString();
-        })();
+      const shareUrl = (() => {
+        const u = new URL(window.location.href);
+        u.search = "";
+        u.hash = "";
+        return u.toString();
+      })();
 
       const shareData = {
         title: shareCfg.ogTitle || `${bride} & ${groom} — Wedding Invitation`,

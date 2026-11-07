@@ -49,7 +49,7 @@ if (fs.existsSync(metaPath)) {
   }
 }
 
-// No query string on image URL — WhatsApp breaks on ?v=; page URL ?i=1 busts page cache instead
+// Clean absolute image URL (no query string)
 const ogImageBase = configuredImage || `${siteUrl.replace(/\/$/, "")}${imagePath}`;
 
 let html = fs.readFileSync(indexPath, "utf8");
