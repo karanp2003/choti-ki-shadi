@@ -3,6 +3,11 @@
   "outputDirectory": ".",
   "installCommand": "npm install",
   "framework": null,
+  "build": {
+    "env": {
+      "SITE_URL": "https://antima-saksham.vercel.app"
+    }
+  },
   "headers": [
     {
       "source": "/og-share.jpg",

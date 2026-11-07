@@ -1066,19 +1066,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const bride = config.hero?.bride?.name || "Antima Gupta";
       const groom = config.hero?.groom?.name || "Saksham Mathur";
       const shareCfg = config.share || {};
+      const shareText =
+        shareCfg.whatsappText ||
+        `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 4 & 5 December 2026!`;
+
       const shareData = {
         title: shareCfg.ogTitle || `${bride} & ${groom} — Wedding Invitation`,
-        text:
-          shareCfg.whatsappText ||
-          `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 4 & 5 December 2026!\n\nTap to open: ${window.location.href}`,
+        text: shareText,
         url: window.location.href,
       };
 
       if (navigator.share) {
         navigator.share(shareData).catch(() => {});
       } else {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          alert("Wedding Invitation link copied to clipboard!");
+        const clipboardText = `${shareText}\n\n${window.location.href}`;
+        navigator.clipboard.writeText(clipboardText).then(() => {
+          alert("Wedding invitation message copied — paste in WhatsApp!");
         });
       }
     });

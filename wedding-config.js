@@ -14,6 +14,8 @@ window.WEDDING_CONFIG = {
     ogDescription:
       "With love and blessings, you're invited to celebrate our wedding on 4 & 5 December 2026. Tap to open your invitation.",
     ogImagePath: "/og-share.jpg",
+    whatsappText:
+      "With love and blessings, join us as we celebrate the wedding of Antima Gupta & Saksham Mathur on 4 & 5 December 2026!",
   },
 
   // Theme styling
