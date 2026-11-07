@@ -1065,9 +1065,12 @@ document.addEventListener("DOMContentLoaded", () => {
     shareBtn.addEventListener("click", () => {
       const bride = config.hero?.bride?.name || "Antima Gupta";
       const groom = config.hero?.groom?.name || "Saksham Mathur";
+      const shareCfg = config.share || {};
       const shareData = {
-        title: `${bride} & ${groom} — Wedding Invitation`,
-        text: `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 04 & 05 December 2026!`,
+        title: shareCfg.ogTitle || `${bride} & ${groom} — Wedding Invitation`,
+        text:
+          shareCfg.whatsappText ||
+          `With love and blessings, join us as we celebrate the wedding of ${bride} & ${groom} on 4 & 5 December 2026!\n\nTap to open: ${window.location.href}`,
         url: window.location.href,
       };
 
