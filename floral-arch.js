@@ -167,8 +167,12 @@
 
   if (cfg.archHeroVideo) archVideo.src = cfg.archHeroVideo;
   if (cfg.audio?.src && cfg.audio.enabled !== false) {
-    audio.src = cfg.audio.src;
+    audio.src = mediaSrc(cfg.audio.src);
     audio.loop = true;
+    if (cfg.audio.title) {
+      audioBtn.title = cfg.audio.title;
+      audioBtn.setAttribute("aria-label", cfg.audio.title);
+    }
   }
 
   let heroStarted = false;

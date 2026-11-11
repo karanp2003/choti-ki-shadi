@@ -30,9 +30,9 @@ window.WEDDING_CONFIG = {
   hero: {
     enabled: true,
     message1: "SAVE THE DATE",
-    message2: "are getting married",
+    message2: "We' re getting married",
     badgeText: "SAVE THE DATE",
-    subtitleScript: "are getting married",
+    subtitleScript: "We' re getting married",
     brideName: "Antima",
     groomName: "Saksham",
     connector: "&",
@@ -63,7 +63,8 @@ window.WEDDING_CONFIG = {
 
   audio: {
     enabled: true,
-    src: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/Best%20September/Suhani%20%26%20Mohit%20-%202nd%20dec/Raabta%20(Kehte%20Hain%20Khuda)%20Full%20Song%20With%20Lyrics%20Agent%20Vinod%20Saif%20Ali%20Khan%2C%20Kareena%20Kapoor%2CPritam%20-%20T-Series%20(128k)%20(mp3cut.net).mp3",
+    title: "Sunehra — Lost Stories",
+    src: "assets/audio/sunehra.mp3",
   },
 
   rsvp: {
