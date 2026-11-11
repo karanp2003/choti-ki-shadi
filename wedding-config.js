@@ -30,9 +30,9 @@ window.WEDDING_CONFIG = {
   hero: {
     enabled: true,
     message1: "SAVE THE DATE",
-    message2: "We're getting married",
+    message2: "are getting married",
     badgeText: "SAVE THE DATE",
-    subtitleScript: "We're getting married",
+    subtitleScript: "are getting married",
     brideName: "Antima",
     groomName: "Saksham",
     connector: "&",
