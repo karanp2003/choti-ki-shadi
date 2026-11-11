@@ -1,172 +1,84 @@
 /**
- * ====================================================================
- * BLUSH & GOLD WEDDING INVITATION CONFIGURATION
- * ====================================================================
- * Customised for: Antima Gupta & Saksham Mathur
- * Theme: Blush & Gold (InviteVibes)
+ * Floral Arch — Save The Date (matches invitevibes.in / floral-arch.vercel.app)
+ * Antima Gupta & Saksham Mathur — RSVP off, Share + Maps
  */
 
 window.WEDDING_CONFIG = {
-  // Theme styling
-  theme: {
-    name: "blush-gold",
-    primaryColor: "#E2B4B1",      // Romantic Blush Pink
-    accentColor: "#D4AF37",       // Soft Warm Gold
-    headingFont: "Pinyon Script",
-    petalsEnabled: true,
+  themeId: "floral-arch",
+
+  _visibility: {
+    entry: true,
+    hero: true,
+    story: true,
+    ourStory: true,
+    rsvp: false,
+    audio: true,
   },
 
-  // Romantic Wedding Background Song (Exact song from Blush & Gold theme)
+  entry: {
+    enabled: false,
+    entryVariantId: "entry-video-envelope-9",
+    variantType: "type1",
+    videoUrl:
+      "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(9).mp4",
+    tapHint: "Tap to Open",
+    message:
+      "With love and blessings,\nwe invite you to celebrate\nour Save The Date.",
+    overlayStyle: "light",
+  },
+
+  hero: {
+    enabled: true,
+    message1: "SAVE THE DATE",
+    message2: "are getting married",
+    badgeText: "SAVE THE DATE",
+    subtitleScript: "are getting married",
+    brideName: "Antima",
+    groomName: "Saksham",
+    connector: "&",
+    displayOrder: "bride-first",
+    weddingDate: "2026-12-05",
+    venue: "Saryu Mahal, Jagatpura, Jaipur",
+    mapsUrl:
+      "https://www.google.com/maps/place/SARYU+MAHAL/@26.8281808,75.8634742,17z/data=!4m6!3m5!1s0x396dc99347e031d9:0xfb42f68b71525903!8m2!3d26.8281808!4d75.8660491!16s%2Fg%2F11h_y9tr4p?entry=ttu",
+    scrollTag: "SCROLL DOWN",
+  },
+
+  story: {
+    enabled: true,
+    title: "Our Story",
+    scriptSubtitle: "Together forever",
+    leadMessage:
+      "Soon the most meaningful day of our lives will arrive — we are becoming a family!",
+    closingMessage:
+      "We would be overjoyed to have you by our side, to share love, laughter, and memories that remain in our hearts forever.",
+    autoPlayInterval: 3800,
+    slides: [
+      { media: "WhatsApp Image 2026-10-05 at 20.45.24.jpeg" },
+      { media: "WhatsApp Image 2026-10-05 at 20.45.241.jpeg" },
+      { media: "WhatsApp Image 2026-10-05 at 20.45.2511.jpeg" },
+      { media: "WhatsApp Image 2026-10-05 at 20.45.25111.jpeg" },
+    ],
+  },
+
   audio: {
     enabled: true,
-    title: "Romantic Bollywood Acoustic Reel",
-    src: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/April/Kriti%20%26%20Manmeet/ReelAudio-14254.mp3",
+    src: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/Best%20September/Suhani%20%26%20Mohit%20-%202nd%20dec/Raabta%20(Kehte%20Hain%20Khuda)%20Full%20Song%20With%20Lyrics%20Agent%20Vinod%20Saif%20Ali%20Khan%2C%20Kareena%20Kapoor%2CPritam%20-%20T-Series%20(128k)%20(mp3cut.net).mp3",
   },
 
-  // Video Envelope Opening Screen (First Impression)
-  entry: {
-    enabled: true,
-    videoUrl: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/New%20Envelope/1%20(8).mp4",
-    message: "With love and blessings,\nwe invite you to celebrate the wedding of:",
-    tapHint: "Tap to Open Invitation",
+  rsvp: {
+    enabled: false,
   },
 
-  // Hero Section
-  hero: {
-    ganeshImageUrl: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/godsymbols/1.webp",
-    godQuote: "|| Shree Ganeshay Namah ||",
-    introLine: "Together with their families, cordially invite you to celebrate the wedding of",
-    connector: "with",
-    bride: {
-      name: "Antima Gupta",
-      familyLine: "Beloved Daughter of Gupta Family",
-    },
-    groom: {
-      name: "Saksham Mathur",
-      familyLine: "Beloved Son of Mathur Family",
-    },
-    weddingDateText: "Saturday · 5th December 2026",
-    weddingLocationText: "Royal Palace · Jaipur / Delhi",
+  share: {
+    title: "Antima & Saksham — Save the Date",
+    text:
+      "With love and blessings — save the date for Antima & Saksham on 5 December 2026 at Saryu Mahal, Jagatpura, Jaipur.",
   },
 
-  // Live Countdown & Save the Date
-  countdown: {
-    heading: "Forever Begins In",
-    targetDate: "2026-12-05T10:30:00", // 5th December 2026, 10:30 AM
-  },
+  botanicalPillBg:
+    "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/dummy/ChatGPT%20Image%20Sep%2015%2C%202026%2C%2005_49_28%20PM.png",
 
-  // Welcome Note
-  welcome: {
-    heading: "Dear Friends and Family,",
-    message: "As we embark on this beautiful new chapter of our lives, we seek your warmest love and blessings. Your presence will make our celebrations truly unforgettable.",
-  },
-
-  // Romantic Moments / Our Story
-  story: {
-    subheading: "Our Story",
-    heading: "Forever Us",
-    items: [
-      {
-        image: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/April/Demo/download%20(2).jfif",
-        caption: "Where It Began",
-        text: "From casual conversations to laughter that never ended, our journey quietly began.",
-      },
-      {
-        image: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/April/Demo/download%20(3).jfif",
-        caption: "Joy & Togetherness",
-        text: "Every single day with you is a celebration of love, friendship, and joy.",
-      },
-      {
-        image: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/April/Demo/%F0%9F%91%A5%F0%9F%92%97.jfif",
-        caption: "Our Forever Begins",
-        text: "Surrounded by our families, prayers, and pure love, two souls unite for eternity.",
-      },
-      {
-        image: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/April/Demo/%F0%9F%92%96.jfif",
-        caption: "Written In The Stars",
-        text: "Two hearts, one lifelong promise. Forever starts right here, right now.",
-      },
-    ],
-  },
-
-  // Schedule of Events (Configured exactly as requested)
-  events: {
-    subheading: "The Celebrations Unfold",
-    heading: "Wedding Festivities",
-    items: [
-      {
-        id: "haldi",
-        dayLabel: "DAY 1",
-        title: "Haldi Ceremony",
-        date: "Friday · 04 December 2026",
-        time: "12:30 PM (Lunch Time)",
-        description: "Auspicious yellow hues, fragrant turmeric, family giggles, and joyous beats followed by a lavish festive lunch.",
-        venue: "Poolside Lawns & Courtyard",
-        mapsUrl: "https://maps.google.com/?q=Jaipur",
-        image: "https://pub-b147f35c3bd843e3834167baded16edb.r2.dev/users/6a38c351a72cdffebb09bc37/animated/carnival/714ad36f-83ff-40d1-a6dc-6d7efd785430.webp",
-        dressCode: {
-          label: "Shades of Yellow & Marigold",
-          colors: ["#F7D070", "#E8A317", "#FFF8DC"],
-          names: "Yellow · Ochre · Cream",
-        },
-      },
-      {
-        id: "sangeet",
-        dayLabel: "DAY 1",
-        title: "Sangeet & Musical Night",
-        date: "Friday · 04 December 2026",
-        time: "7:30 PM Onwards (Night)",
-        description: "An enchanting evening of high-voltage dance performances, dhol beats, live music, and dinner under the stars.",
-        venue: "Grand Crystal Ballroom",
-        mapsUrl: "https://maps.google.com/?q=Jaipur",
-        image: "https://pub-b147f35c3bd843e3834167baded16edb.r2.dev/users/6a38c351a72cdffebb09bc37/animated/sangeet/9493c344-69bd-47c0-9b2b-5096d5005698.webp",
-        dressCode: {
-          label: "Dark & Dazzling Glam / Indo-Western",
-          colors: ["#1A1A2E", "#D4AF37", "#E2B4B1"],
-          names: "Midnight Navy · Gold · Rose",
-        },
-      },
-      {
-        id: "wedding",
-        dayLabel: "DAY 2",
-        title: "Wedding Ceremony (Phere)",
-        date: "Saturday · 05 December 2026",
-        time: "10:30 AM – 2:00 PM (Day Wedding)",
-        description: "The auspicious Baraat arrival, Varmala, and the sacred seven pheras around the holy fire, followed by a Royal Wedding Feast.",
-        venue: "Mandapam Royal Heritage Palace",
-        mapsUrl: "https://maps.google.com/?q=Jaipur",
-        image: "https://pub-b147f35c3bd843e3834167baded16edb.r2.dev/users/6a38c351a72cdffebb09bc37/animated/phere/c4215868-219f-440f-8207-abd795ed44d1.webp",
-        highlighted: true,
-        dressCode: {
-          label: "Traditional Festive / Pastel & Royal Indian",
-          colors: ["#E2B4B1", "#D4AF37", "#F2EAE1"],
-          names: "Blush Rose · Gold · Ivory",
-        },
-      },
-    ],
-  },
-
-  // Venue & Location
-  venue: {
-    subheading: "Where We Gather",
-    heading: "The Royal Venue",
-    name: "Royal Heritage Palace & Resorts",
-    address: "Palace Road, Near Heritage Garden, Jaipur, Rajasthan",
-    image: "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/may/Balapriya%20%26%5C/ChatGPT%20Image%20May%2030%2C%202026%2C%2009_57_15%20AM.png",
-    mapsUrl: "https://maps.google.com/?q=Jaipur",
-    buttonLabel: "View on Google Maps",
-  },
-
-
-
-  // Footer & Blessings
-  footer: {
-    message: "Your gracious presence will turn our special day into a celebration of love, laughter, and lifelong memories.",
-    regards: "With heartfelt gratitude & blessings,",
-    familyLine: "Gupta & Mathur Families",
-    contacts: [
-      { name: "Gupta Family Coordinator", phone: "+91 98765 43210" },
-      { name: "Mathur Family Coordinator", phone: "+91 98765 43211" },
-    ],
-  },
+  archHeroVideo:
+    "https://pub-1953a6673e864f3488c645252f75de98.r2.dev/website%20assets/dummy/Floral_opening_animation_transition_20260915134253_compressed.mp4",
 };
